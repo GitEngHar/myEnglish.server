@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Let's Quiz</title>
+<script th:inline="javascript">
+	var currentIndex = 0;
+	var questionDetails = /*[[${myEnglishQuizDetailsEntity}]]*/ [];
+	var questionAnswers = /*[[${myEnglishQuizAnswerEntity}]]*/ [];
+	
+	window.onload = function(){
+			document.getElementById("correntQuestionDetails").textContent = questionDetails[currentIndex].questionWord;
+			document.getElementById("correntQuestionAnswer1").textContent = questionAnswers[currentIndex].answerCandidateNo1;
+			document.getElementById("correntQuestionAnswer2").textContent = questionAnswers[currentIndex].answerCandidateNo2;
+			document.getElementById("correntQuestionAnswer3").textContent = questionAnswers[currentIndex].answerCandidateNo3;
+			document.getElementById("correntQuestionAnswer4").textContent = questionAnswers[currentIndex].answerCandidateNo4;
+		}
+		/* 解答結果の表示をリセットする */
+		function answerResultReset(){
+			let selectedAnswer = document.querySelector('input[name="answer"]:checked').value;
+			document.getElementById("questionResult").textContent = "";
+		}
+		/* 問題と解答を合わせて表示する */
+		function showNextQuestionDetails(){
+			let questionDetailsMaxShowNumber = questionDetails.length - 1;
+			answerResultReset();
+			if(questionDetailsMaxShowNumber > currentIndex){
+				currentIndex++;
+				document.getElementById("correntQuestionDetails").textContent = questionDetails[currentIndex].questionWord;
+				document.getElementById("correntQuestionAnswer1").textContent = questionAnswers[currentIndex].answerCandidateNo1;
+				document.getElementById("correntQuestionAnswer2").textContent = questionAnswers[currentIndex].answerCandidateNo2;
+				document.getElementById("correntQuestionAnswer3").textContent = questionAnswers[currentIndex].answerCandidateNo3;
+				document.getElementById("correntQuestionAnswer4").textContent = questionAnswers[currentIndex].answerCandidateNo4;
+			}else{
+				alert("一番最後の問題です");
+			}
+			console.log("next")
+		}	
+		function showBackQuestionDetails(){
+			answerResultReset();
+			if(currentIndex > 0){
+				currentIndex--;
+				document.getElementById("correntQuestionDetails").textContent = questionDetails[currentIndex].questionWord;
+				document.getElementById("correntQuestionAnswer1").textContent = questionAnswers[currentIndex].answerCandidateNo1;
+				document.getElementById("correntQuestionAnswer2").textContent = questionAnswers[currentIndex].answerCandidateNo2;
+				document.getElementById("correntQuestionAnswer3").textContent = questionAnswers[currentIndex].answerCandidateNo3;
+				document.getElementById("correntQuestionAnswer4").textContent = questionAnswers[currentIndex].answerCandidateNo4;
+			}else{
+				alert("一番最初の問題です");
+			}
+			console.log("next")
+		}
+		
+		/* 正解|不正解の確認(解答合わせ) */
+		function verifyAnswer(){
+			let selectedAnswer = document.querySelector('input[name="answer"]:checked').value;
+			let questionAnswer = questionAnswers[currentIndex].answerId;
+			if(selectedAnswer == questionAnswer){
+				document.getElementById("questionResult").textContent = "正解";
+			}else{
+				document.getElementById("questionResult").textContent = "不正解";	
+			}
+		}
+</script>
+</head>
+<body>
+	<div>
+	    <p id="correntQuestionDetails">ここに問題が表示されます</p>
+		<p id="questionResult"></p>
+		<form id="correntQuestionAnswerForm">
+			<input type="radio" id="answer1" name="answer" value="1">
+			<label for="answer1" id="correntQuestionAnswer1">Answer 1</label><br>
+			<input type="radio" id="answer2" name="answer" value="2">
+		    <label for="answer2" id="correntQuestionAnswer2">Answer 2</label><br>
+		    <input type="radio" id="answer3" name="answer" value="3">
+			<label for="answer3" id="correntQuestionAnswer3">Answer 3</label><br>
+		    <input type="radio" id="answer4" name="answer" value="4">
+			<label for="answer4" id="correntQuestionAnswer4">Answer 4</label><br>
+		</form>
+		<button type="button" onclick="showBackQuestionDetails()">戻る</button>
+		<button type="button" onclick="verifyAnswer()">回答する</button>
+		<button type="button" onclick="showNextQuestionDetails()">次へ</button>
+		<p><a th:href="@{/quizdetails/{id}(id=${questionTitleId})}">クイズ管理画面へ戻る</a></p>
+	</div>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Quiz Form</title>
+</head>
+<body>
+	<h2 th:if="${quizform.booladd}">Add Title Here</h2>
+	<h2 th:unless="${quizform.booladd}">Edit Title Here</h2>
+	<form th:action="${quizform.booladd} ? @{/quiz/save}:@{/quiz/update}" 
+		th:object="${quizform}" method="post">
+		<input type="hidden" th:field="*{questionTitleId}">
+		<input type="hidden" th:field="*{ownerUserId}">
+		<p>Title</p>
+		<p>
+			<input type="text" th:field="*{questionTitle}">
+		</p>
+		<input th:if="${quizform.booladd}" type="submit" value="登録">
+		<input th:unless="${quizform.booladd}" type="submit" value="更新">
+	</form>
+	<a th:href="@{/quiz}">戻る</a>
+</body>
+</html>

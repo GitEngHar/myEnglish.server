@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Quiz Form</title>
+</head>
+<body>
+	<h2 th:if="${myEnglishQuizDetailsWrapperForm.myEnglishQuizDetailsForm.booladd}">Add Quiz Here</h2>
+	<h2 th:unless="${myEnglishQuizDetailsWrapperForm.myEnglishQuizDetailsForm.booladd}">Edit Quiz Here</h2>
+<!--	更新時はクイズタイトル内へのリダイレクト用にquestionTitleIdを渡す-->
+	<form th:action="${myEnglishQuizDetailsWrapperForm.myEnglishQuizDetailsForm.booladd} ? @{/quizdetails/save} : @{/quizdetails/update/{questionTitleId}(questionTitleId=${myEnglishQuizDetailsWrapperForm.myEnglishQuizDetailsForm.questionTitleId})}" 
+		th:object="${myEnglishQuizDetailsWrapperForm}" method="post">
+		<input type="hidden" th:field="*{myEnglishQuizDetailsForm.questionDetailsId}">
+		<input type="hidden" th:field="*{myEnglishQuizDetailsForm.questionTitleId}">
+		<input type="hidden" th:field="*{myEnglishQuizAnswerForm.questionAnswerId}">
+		<p>問題</p>
+		<p><input type="text" placeholder="問題のタイトルを入力" th:field="*{myEnglishQuizDetailsForm.questionWord}" ></p>
+		
+		<p>選択肢</p>
+		<p><input type="text" placeholder="選択肢1を入力" th:field="*{myEnglishQuizAnswerForm.answerCandidateNo1}" ></p>
+		<p><input type="text" placeholder="選択肢2を入力" th:field="*{myEnglishQuizAnswerForm.answerCandidateNo2}" ></p>
+		<p><input type="text" placeholder="選択肢3を入力" th:field="*{myEnglishQuizAnswerForm.answerCandidateNo3}" ></p>
+		<p><input type="text" placeholder="選択肢4を入力" th:field="*{myEnglishQuizAnswerForm.answerCandidateNo4}" ></p>
+		
+		<p>答え</p>
+		<p><input type="number" placeholder="答えを入力" th:field="*{myEnglishQuizAnswerForm.answerId}" ></p>
+		
+		<input th:if="${myEnglishQuizDetailsWrapperForm.myEnglishQuizDetailsForm.booladd}" type="submit" value="登録">
+		<input th:unless="${myEnglishQuizDetailsWrapperForm.myEnglishQuizDetailsForm.booladd}" type="submit" value="更新">
+	</form>
+	<a th:href="${myEnglishQuizDetailsWrapperForm.myEnglishQuizDetailsForm.booladd} ? @{/quizdetails/{questionTitleId}(questionTitleId=${myEnglishQuizDetailsWrapperForm.myEnglishQuizDetailsForm.questionTitleId})} : @{/quizdetails/{questionTitleId}(questionTitleId=${myEnglishQuizDetailsWrapperForm.myEnglishQuizDetailsForm.questionTitleId})}">戻る</a>
+</body>
+</html>
