@@ -10,6 +10,11 @@ public class MyEnglishIndexController {
 	public String index(Model model) {
 		return "redirect:/quiz";
 	}
+	@RequestMapping(value="/index")
+	public String index() {
+		return "forward:/index.html";
+	}
+	
 //	public String index(Model model) {
 //		/* ログイン機能を作っていないが故の仮実装
 //		 * 無理やりログインしたことにしている */
