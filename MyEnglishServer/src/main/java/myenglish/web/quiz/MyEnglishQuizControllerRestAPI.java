@@ -2,8 +2,6 @@ package myenglish.web.quiz;
 
 import java.util.List;
 
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -52,19 +50,19 @@ public class MyEnglishQuizControllerRestAPI {
 		MyEnglishQuizTitleEntity titleEntity = MyEnglishQuizTitleFormHelper.convertToEntity(form);
 		quizService.insertQuestionTitle(titleEntity);
 	}
-	
 
 	
 	// クイズ更新画面
+	@CrossOrigin
+	(origins = "http://localhost:3000")
 	@PostMapping("/update")
-	public String quizForm(@Validated MyEnglishQuizTitleForm form,
-			BindingResult bindingResult) {
+	public void quizForm(@RequestBody MyEnglishQuizTitleForm form) {
 			// TODO:エラーをハンドリングする
 			/** 編集した内容でアップデート **/	
 			MyEnglishQuizTitleEntity titleEntity = MyEnglishQuizTitleFormHelper.convertToEntity(form);
 			quizService.updateQuestion(titleEntity);
-			return "redirect:/quiz";
 		}	
+	
 	/** クイズ削除 **/
 	@CrossOrigin
 	(origins = "http://localhost:3000")
