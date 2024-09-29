@@ -3,6 +3,8 @@ package myenglish.web.quizdetails;
 import java.util.List;
 import java.util.Optional;
 
+import myenglish.helper.MyEnglishQuizAnswerFormHelper;
+import myenglish.helper.MyEnglishQuizDetailsFormHelper;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -79,49 +81,30 @@ public class MyEnglishQuizDetailsRestAPI{
 		quizService.insertQuestionAnswer(questionDetailsWrapperEntity.getMyEnglishQuizAnswerEntity());
 	}
 	
-	/* quiz 追加画面*/
-	@GetMapping("/form/{parentid}")
-	public String quizForm(@PathVariable("parentid") int questionTilteId,Model model) {
-		// TODO:formをwrapperにする
-		MyEnglishQuizDetailsWrapperForm myEnglishQuizDetailsWrapperForm =  new MyEnglishQuizDetailsWrapperForm();
-		MyEnglishQuizDetailsForm myEnglishQuizDetailsForm = myEnglishQuizDetailsWrapperForm.getMyEnglishQuizDetailsForm();
-		myEnglishQuizDetailsForm.setQuestionTitleId(questionTilteId);
-		myEnglishQuizDetailsForm.setBooladd(true);
-		model.addAttribute("myEnglishQuizDetailsWrapperForm",myEnglishQuizDetailsWrapperForm);
-		return "quizdetails/form";
-	}
-	
 	/*クイズ削除 delete */
-	@GetMapping("/delete/{id}")
-	public String quizDelete(@PathVariable("id") int id) {
+	@CrossOrigin
+	(origins = "http://localhost:3000")
+	@PostMapping("/delete")
+	public void quizDelete(@RequestBody  MyEnglishQuizDetailsForm quizDetailsForm) {
 		// TODO: 複数ユーザ利用の場合他ユーザーのデータを削除させないような仕組みが必要そう
-		MyEnglishQuizDetailsEntity entity =  quizService.getQuestionDetailsById(id);
+		MyEnglishQuizDetailsEntity entity =  quizService.getQuestionDetailsById(quizDetailsForm.getQuestionDetailsId());
 		quizService.deleteQuestion(entity);
-		int parentQuestId = entity.getQuestionTitleId();
-		String redirectURL = UriComponentsBuilder.fromPath("/quizdetails/{parentQuestId}")
-                .buildAndExpand(parentQuestId)
-                .toUriString();
-		return "redirect:"+redirectURL;
 	}
 	
 	/* クイズ編集画面 */
-	@GetMapping("/edit/{questionTitleId}/{questionDetailsId}")
-	public String quizEdit(@PathVariable("questionTitleId") int questionTitleId ,@PathVariable("questionDetailsId") int questionDetailsId,Model model) {
-		MyEnglishQuizDetailsEntity questionDetailsEntity = quizService.getQuestionDetailsById(questionDetailsId);
-		MyEnglishQuizAnswerEntity questionAnswerEntity = quizService.getQuestionAnswerById(questionDetailsId);
-		MyEnglishQuizDetailsWrapperEntity questionDetailsWrapperEntity = new MyEnglishQuizDetailsWrapperEntity();
-		questionDetailsWrapperEntity.setMyEnglishQuizAnswerEntity(questionAnswerEntity);
-		questionDetailsWrapperEntity.setMyEnglishQuizDetailsEntity(questionDetailsEntity);
-		MyEnglishQuizDetailsWrapperForm form =  MyEnglishQuizDetailsWrapperFormHelper.convertToForm(questionDetailsWrapperEntity);
-		model.addAttribute("myEnglishQuizDetailsWrapperForm",form);
-		return "quizdetails/form";
+	@CrossOrigin
+	(origins = "http://localhost:3000")
+	@PostMapping("/edit")
+	public MyEnglishQuizAnswerForm quizEdit(@RequestBody  MyEnglishQuizDetailsForm quizDetailsForm) {
+		MyEnglishQuizAnswerEntity questionAnswerEntity = quizService.getQuestionAnswerById(quizDetailsForm.getQuestionDetailsId());
+		return MyEnglishQuizAnswerFormHelper.convertToForm(questionAnswerEntity);
 	}
 	
 	/* クイズ更新画面 */
-	@PostMapping("/update/{questionTitleId}")
-	public String quizForm(@PathVariable("questionTitleId") int questionTitleId,
-			@Validated MyEnglishQuizDetailsWrapperForm quizDetailsWrapperForm,
-			BindingResult bindingResult) {
+	@CrossOrigin
+	(origins = "http://localhost:3000")
+	@PostMapping("/update")
+	public void quizForm(@RequestBody MyEnglishQuizDetailsWrapperForm quizDetailsWrapperForm) {
 			// TODO:エラーハンドル
 			/* 編集した内容で問題と答えをアップデート */
 			MyEnglishQuizDetailsWrapperEntity questionDetailsWrapperEntity = MyEnglishQuizDetailsWrapperFormHelper.convertToEntity(quizDetailsWrapperForm);
@@ -130,9 +113,6 @@ public class MyEnglishQuizDetailsRestAPI{
 			int quiestionDetailsId = quizDetailsWrapperForm.getMyEnglishQuizDetailsForm().getQuestionDetailsId();
 			questionDetailsWrapperEntity.getMyEnglishQuizAnswerEntity().setQuestionDetailsId(quiestionDetailsId);
 			quizService.updateQuestionAnswer(questionDetailsWrapperEntity.getMyEnglishQuizAnswerEntity());
-			String redirectURL = UriComponentsBuilder.fromPath("/quizdetails/{id}")
-	                .buildAndExpand(questionTitleId)
-	                .toUriString();
-			return "redirect:"+redirectURL;
 		}
+
 }
