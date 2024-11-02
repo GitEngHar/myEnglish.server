@@ -26,8 +26,8 @@ public class OAuthSuccessController {
         this.userServiceImpl = userServiceImpl;
     }
     /**
-     * return : token,userId
-     * 認証に成功した場合新規の場合はユーザーを作成しIDとTokenを返す
+     * 認証に成功した場合新規の場合はユーザーを作成する
+     * ユーザーIDはsessionで管理
      * */
     @GetMapping("/loginsuccess")
     public void loginSuccess(Authentication authentication, HttpServletResponse response) throws IOException {
