@@ -6,7 +6,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import myenglish.service.user.UserServiceImpl;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import io.jsonwebtoken.Jwts;
@@ -46,10 +45,11 @@ public class OAuthSuccessController {
         // JWTをCookieに登録する
         Cookie jwtCookie = new Cookie("jwt_token",token); // jwt-tokenをcookieへ格納しておく
         jwtCookie.setHttpOnly(true);     // JavaScriptからのアクセスを禁止
-        //jwtCookie.setSecure(true);       // HTTPS通信のみで送信(検証用にオフ)
+        //jwtCookie.setSecure(true);     // HTTPS通信のみで送信(検証用にオフ)
         jwtCookie.setPath("/");          // Cookieのパスを設定
         jwtCookie.setMaxAge(86400);      // Cookieの有効期限（秒）
         response.addCookie(jwtCookie);
+        userServiceImpl.createUser(name,email);
         // フロントエンドサーバのトップページへリダイレクトする
         response.sendRedirect("http://localhost:3000/");
     }
