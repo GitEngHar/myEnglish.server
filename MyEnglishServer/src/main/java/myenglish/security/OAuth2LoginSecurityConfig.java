@@ -11,14 +11,19 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 @EnableWebSecurity
 public class OAuth2LoginSecurityConfig {
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/login/**").permitAll() // login配下は認証不要
                         .anyRequest().authenticated()
                 )
-                .oauth2Login(withDefaults());
+                .csrf(csrf -> csrf.disable()) // CSRFを無効化
+                .oauth2Login(withDefaults())  // 認証設定にデフォルトの設定を利用する (applicatin.yml)
+                .oauth2Login(customizer -> customizer
+                        .defaultSuccessUrl("/loginsuccess",true)); // ログイン成功後にログイン成功リダイレクト先に遷移。trueでいつでも有効にする。
+
         return http.build();
     }
+
 }
