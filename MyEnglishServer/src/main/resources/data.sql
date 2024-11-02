@@ -3,9 +3,9 @@ DELETE FROM question_details_plugin;
 DELETE FROM question_core;
 DELETE FROM user_root;
 
-INSERT IGNORE INTO user_root (user_id,name,created_date,update_date)
+INSERT IGNORE INTO user_root (user_id,name,email,created_date,update_date)
 VALUES
-(1,'testuser',NOW(), NOW());
+(1,'testuser','testmyenglish@gmail.com',NOW(), NOW());
 
 INSERT IGNORE INTO question_core (question_title_id,owner_user_id,question_title,created_date,update_date)
 VALUES

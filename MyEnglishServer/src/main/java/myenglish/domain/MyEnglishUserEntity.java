@@ -15,4 +15,9 @@ import lombok.NoArgsConstructor;
 public class MyEnglishUserEntity {
 	private Integer userId;
 	private String name;
+	private String email;
+	public MyEnglishUserEntity(String name, String email) {
+		this.name = name;
+		this.email = email;
+	}
 }
