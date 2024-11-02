@@ -2,6 +2,7 @@
 CREATE TABLE IF NOT EXISTS user_root (
     user_id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     name varchar(255) UNIQUE NOT NULL,
+    email varchar(255) UNIQUE NOT NULL,
     created_date DATETIME NOT NULL,
     update_date DATETIME NOT NULL
 )DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
