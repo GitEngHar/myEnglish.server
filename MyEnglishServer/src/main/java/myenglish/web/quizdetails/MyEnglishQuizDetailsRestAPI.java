@@ -3,6 +3,7 @@ package myenglish.web.quizdetails;
 import java.util.List;
 import java.util.Optional;
 
+import jakarta.servlet.http.HttpSession;
 import myenglish.helper.MyEnglishQuizAnswerFormHelper;
 import myenglish.helper.MyEnglishQuizDetailsFormHelper;
 import org.springframework.ui.Model;
@@ -41,10 +42,11 @@ public class MyEnglishQuizDetailsRestAPI{
 	@CrossOrigin
 	(origins = "http://localhost:3000")
 	@PostMapping("/")
-	public List<MyEnglishQuizDetailsEntity> quizdetails(@RequestBody MyEnglishQuizTitleForm quiestionTitle) {
-		
+	public List<MyEnglishQuizDetailsEntity> quizdetails(@RequestBody MyEnglishQuizTitleForm quiestionTitle, HttpSession session) {
+		// セッションからユーザーIDを取得する
+		int userId = Integer.parseInt((String) session.getAttribute("userId"));
 		MyEnglishQuizTitleEntity quiestionTitleEntity = MyEnglishQuizTitleFormHelper.convertToEntity(quiestionTitle);
-		
+		quiestionTitleEntity.setOwnerUserId(userId);
 		/** クイズタイトルに該当の問題情報を取得する **/
 		List<MyEnglishQuizDetailsEntity> quizDetails = 
 				quizService.getQuestionDetails(quiestionTitleEntity);

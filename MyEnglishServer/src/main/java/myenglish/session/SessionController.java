@@ -1,48 +1,52 @@
 package myenglish.session;
 
-import lombok.AllArgsConstructor;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import myenglish.web.form.MyEnglishQuizTitleForm;
-import myenglish.web.form.UserSessionForm;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Mono;
-import org.springframework.web.server.WebSession;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Slf4j
-@RestController
-@AllArgsConstructor
+@Controller
+@RequiredArgsConstructor
 public class SessionController {
     /**
      * ユーザー情報のセッションを 更新/取得 するクラス
      * Monoは単一の情報を返す , Fluxは複数の情報を返す
      * */
+    private String redirectUrl = "http://localhost:3000"; //リダイレクト先のURL
+    private final HttpSession session;
 
-    @GetMapping("/websession")
-    public Mono<UserSessionForm> getSession (WebSession session){
-        // 値が何も存在しない場合に返すデフォルト値
-        session.getAttributes().putIfAbsent("userId", 0);
-        session.getAttributes().putIfAbsent("name", "anonymous");
-
-        // ユーザー情報をセッションから取得する
-        UserSessionForm userSessionForm = new UserSessionForm();
-        userSessionForm.setUserId((Integer) session.getAttributes().get("userId"));
-        userSessionForm.setName((String) session.getAttributes().get("name"));
-
-        return Mono.just(userSessionForm);
+    // セッション動作検証用 foo が keyのvalueを取得する
+    @GetMapping("/websession/get/test")
+    public void getSession (HttpServletRequest request){
+        // redisへのセッション処理
+        String returnData = (String) session.getAttribute("userId");
+        int userId = Integer.parseInt(returnData);
+        System.out.println("session data : " + userId);
+        // フロントエンドサーバへのリダイレクト処理
     }
 
-    @GetMapping("/websession/set")
-    public void setSession (@RequestBody UserSessionForm userSessionForm, WebSession session){
-        int userId = userSessionForm.getUserId();
-        String name = userSessionForm.getName();
 
+    // セッション動作検証用 foo(key) bar(value) をセッションへ格納する
+    @GetMapping("/websession/set/test")
+    public String setTestSession (HttpServletRequest request){
+        session.setAttribute("foo", "bar");
+        System.out.println("set-end");
+        // フロントエンドサーバへのリダイレクト処理
+        return "redirect:" + redirectUrl;
+
+    }
+
+    // 初回ログイン時にセッションへユーザーIDを登録する
+    @GetMapping("/websession/set")
+    public String setSession (@RequestParam("userid") String userId){
         // セッションにユーザー情報を格納
-        session.getAttributes().put("userId", userId);
-        session.getAttributes().put("name", name);
+        session.setAttribute("userId", userId);
+        return "redirect:" + redirectUrl;
     }
 
 
