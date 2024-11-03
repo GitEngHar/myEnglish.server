@@ -23,8 +23,6 @@ public class MyEnglishQuizControllerRestAPI {
 	private final QuizServiceImpl quizService;
 	
 	/** クイズのトップ画面 **/
-	@CrossOrigin
-	(origins = "http://localhost:3000")
 	@GetMapping("")
 	public List<MyEnglishQuizTitleEntity> entryQuiz() {
 		/** MockUserData **/
@@ -41,8 +39,6 @@ public class MyEnglishQuizControllerRestAPI {
 	}
 	
 	/** クイズタイトルをDBへ保存 **/
-	@CrossOrigin
-	(origins = "http://localhost:3000")
 	@PostMapping("/save")
 	public void saveQuizTitle(@RequestBody MyEnglishQuizTitleForm form) {
 		// TODO:エラーをハンドリングする
@@ -53,8 +49,6 @@ public class MyEnglishQuizControllerRestAPI {
 
 	
 	// クイズ更新画面
-	@CrossOrigin
-	(origins = "http://localhost:3000")
 	@PostMapping("/update")
 	public void quizForm(@RequestBody MyEnglishQuizTitleForm form) {
 			// TODO:エラーをハンドリングする
@@ -64,8 +58,6 @@ public class MyEnglishQuizControllerRestAPI {
 		}	
 	
 	/** クイズ削除 **/
-	@CrossOrigin
-	(origins = "http://localhost:3000")
 	@PostMapping("/delete")
 	public void quizTitleDelete(@RequestBody MyEnglishQuizTitleForm form) {
 		int id = form.getQuestionTitleId();
