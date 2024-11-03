@@ -10,7 +10,7 @@ public interface UserRootRepository {
 	int insert(MyEnglishUserEntity MyEnglishUserEntity);
 	/** id を 指定してユーザーを検索する **/
 	@Select("SELECT * FROM user_root WHERE user_id=#{userId}")
-	MyEnglishUserEntity selectById(@Param("user_id") Integer userId);
+	MyEnglishUserEntity selectById(@Param("userId") Integer userId);
 
 	/** email を 指定してユーザーを検索する **/
 	@Select("SELECT * FROM user_root WHERE email=#{email}")

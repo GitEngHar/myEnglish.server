@@ -13,18 +13,23 @@ public class UserServiceImpl implements UserService {
     @Override
     public int createUser(String name,String email){
         int userId = 0;
-        if(getUser(email) == null){
+        if(getUser(email,userId) == null){
             // ユーザーが存在しない場合は新しく作成する
             MyEnglishUserEntity myEnglishUserEntity =  new MyEnglishUserEntity(name,email);
             userRootRepository.insert(myEnglishUserEntity);
         }
-        userId = getUser(email).getUserId();
+        userId = getUser(email,userId).getUserId();
         return userId;
     }
 
     @Override
-    public MyEnglishUserEntity getUser(String email){
-        MyEnglishUserEntity myEnglishUserEntity =  userRootRepository.selectByEmail(email);;
+    public MyEnglishUserEntity getUser(String email,int userId){
+        MyEnglishUserEntity myEnglishUserEntity;
+        if(email == null){
+            myEnglishUserEntity = userRootRepository.selectById(userId);
+        }else{
+            myEnglishUserEntity = userRootRepository.selectByEmail(email);
+        }
         return myEnglishUserEntity;
     }
 

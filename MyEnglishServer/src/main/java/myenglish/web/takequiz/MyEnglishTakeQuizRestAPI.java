@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,6 +31,7 @@ public class MyEnglishTakeQuizRestAPI {
 	(origins = "http://localhost:3000")
 	@PostMapping("/")
 	public List<MyEnglishQuizDetailsWrapperForm> takeQuiz(@RequestBody  MyEnglishQuizTitleForm questionTitle) {
+
 		// 対象の問題と答えをWrapperへ格納
 		MyEnglishQuizTitleEntity myEnglishQuestionTitleEntity = new MyEnglishQuizTitleEntity();
 		myEnglishQuestionTitleEntity.setQuestionTitleId(questionTitle.getQuestionTitleId());

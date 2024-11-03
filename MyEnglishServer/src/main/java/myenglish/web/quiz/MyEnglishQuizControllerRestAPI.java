@@ -2,6 +2,8 @@ package myenglish.web.quiz;
 
 import java.util.List;
 
+import jakarta.servlet.http.HttpSession;
+import myenglish.service.user.UserServiceImpl;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,16 +23,16 @@ import myenglish.web.form.MyEnglishQuizTitleForm;
 @RestController
 public class MyEnglishQuizControllerRestAPI {
 	private final QuizServiceImpl quizService;
-	
+	private final UserServiceImpl userService;
 	/** クイズのトップ画面 **/
-	@CrossOrigin
-	(origins = "http://localhost:3000")
 	@GetMapping("")
-	public List<MyEnglishQuizTitleEntity> entryQuiz() {
-		/** MockUserData **/
-		MyEnglishUserEntity userProperty = new MyEnglishUserEntity();
-		userProperty.setUserId(1);
-		
+	public List<MyEnglishQuizTitleEntity> entryQuiz(HttpSession session) {
+		// セッションからユーザーIDを取得する
+		int userId = Integer.parseInt((String) session.getAttribute("userId"));
+		// userIdからユーザー情報を取得する
+		MyEnglishUserEntity userProperty = userService.getUser(null, userId);
+		userProperty.setUserId(userId);
+
 		// 問題のタイトルを取得
 		List<MyEnglishQuizTitleEntity> questionTitles = quizService.getQuestionTitle(userProperty);
 		boolean isGetTitleNull = questionTitles.stream().anyMatch(title -> title == null);
@@ -41,31 +43,33 @@ public class MyEnglishQuizControllerRestAPI {
 	}
 	
 	/** クイズタイトルをDBへ保存 **/
-	@CrossOrigin
-	(origins = "http://localhost:3000")
 	@PostMapping("/save")
-	public void saveQuizTitle(@RequestBody MyEnglishQuizTitleForm form) {
+	public void saveQuizTitle(@RequestBody MyEnglishQuizTitleForm form,HttpSession session) {
 		// TODO:エラーをハンドリングする
 		// 入力されたタイトルフォームを変換しDBに登録
 		MyEnglishQuizTitleEntity titleEntity = MyEnglishQuizTitleFormHelper.convertToEntity(form);
+		// セッションからユーザーIDを取得する
+		int userId = Integer.parseInt((String) session.getAttribute("userId"));
+
+		titleEntity.setOwnerUserId(userId);
 		quizService.insertQuestionTitle(titleEntity);
 	}
 
 	
 	// クイズ更新画面
-	@CrossOrigin
-	(origins = "http://localhost:3000")
 	@PostMapping("/update")
-	public void quizForm(@RequestBody MyEnglishQuizTitleForm form) {
-			// TODO:エラーをハンドリングする
-			/** 編集した内容でアップデート **/	
-			MyEnglishQuizTitleEntity titleEntity = MyEnglishQuizTitleFormHelper.convertToEntity(form);
-			quizService.updateQuestion(titleEntity);
+	public void quizForm(@RequestBody MyEnglishQuizTitleForm form,HttpSession session) {
+		// TODO:エラーをハンドリングする
+		/** 編集した内容でアップデート **/
+		// セッションからユーザーIDを取得する
+		int userId = Integer.parseInt((String) session.getAttribute("userId"));
+
+		MyEnglishQuizTitleEntity titleEntity = MyEnglishQuizTitleFormHelper.convertToEntity(form);
+		titleEntity.setOwnerUserId(userId);
+		quizService.updateQuestion(titleEntity);
 		}	
 	
 	/** クイズ削除 **/
-	@CrossOrigin
-	(origins = "http://localhost:3000")
 	@PostMapping("/delete")
 	public void quizTitleDelete(@RequestBody MyEnglishQuizTitleForm form) {
 		int id = form.getQuestionTitleId();
