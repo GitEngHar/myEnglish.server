@@ -24,6 +24,7 @@ repositories {
 	maven { url 'https://repo.spring.io/snapshot' }
 }
 
+
 dependencies {
 	// implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
@@ -46,11 +47,19 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
-	// SESSION
+	// REDIS
 	//implementation 'io.projectreactor:reactor-core:3.5.10' // 最新の安定版を指定
-	implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive:3.2.6'
+
 	//implementation 'org.springframework.boot:spring-boot-starter-webflux'
-	implementation 'org.springframework.session:spring-session-data-redis'
+	implementation 'org.springframework.session:spring-session-data-redis:3.2.6'
+	//compileOnly 'org.projectlombok:lombok'
+	//developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	//annotationProcessor 'org.projectlombok:lombok'
+	//testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	//testImplementation 'io.projectreactor:reactor-test'
+	//testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
 	//compileOnly 'org.projectlombok:lombok'
 	//developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	//annotationProcessor 'org.projectlombok:lombok'
