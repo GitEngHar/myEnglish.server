@@ -1,5 +1,6 @@
 package myenglish.web.form;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -11,10 +12,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MyEnglishQuizDetailsForm {
 
-	@Size(min=1)
+	@Min(0)
 	private int questionDetailsId;
 
-	@Size(min=1)
+	@Min(0)
 	private int questionTitleId;
 
 	@NotBlank()

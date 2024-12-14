@@ -46,7 +46,7 @@ public class MyEnglishQuizControllerRestAPI {
 	@PostMapping("/save")
 	public void saveQuizTitle(@RequestBody @Validated MyEnglishQuizTitleForm form , BindingResult bindingResult, HttpSession session) {
 		if(bindingResult.hasErrors()) {
-			// TODO: 401で返す
+			// TODO: 400で返す
 			System.out.println("!!!ERROR!!!");
 		}else{
 			quizTitleService.insertQuestionTitle(form,session);
@@ -61,7 +61,7 @@ public class MyEnglishQuizControllerRestAPI {
 		/** 編集した内容でアップデート **/
 		// セッションからユーザーIDを取得する
 		if(bindingResult.hasErrors()){
-			// TODO: 401で返す
+			// TODO: 400で返す
 			System.out.println("!!!ERROR!!!");
 		}else{
 			quizTitleService.updateQuestion(form,session);
