@@ -8,13 +8,7 @@ import myenglish.domain.MyEnglishQuizTitleEntity;
 import myenglish.domain.MyEnglishUserEntity;
 
 public interface QuizService {
-	/* クイズのタイトル */
-	List<MyEnglishQuizTitleEntity> getQuestionTitle(MyEnglishUserEntity userProperty);
-	MyEnglishQuizTitleEntity getQuestionTitleById(int questid);
-	void insertQuestionTitle(MyEnglishQuizTitleEntity title); 
-	void deleteQuestionTitle(MyEnglishQuizTitleEntity title);
-	void updateQuestion(MyEnglishQuizTitleEntity title);
-	
+
 	/* クイズに紐づく問題 */
 	List<MyEnglishQuizDetailsEntity> getQuestionDetails(MyEnglishQuizTitleEntity title);
 	MyEnglishQuizDetailsEntity getQuestionDetailsById(int id);

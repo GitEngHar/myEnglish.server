@@ -1,5 +1,6 @@
 package myenglish.web.form;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -11,9 +12,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MyEnglishQuizTitleForm {
-	@Size(min=1)
+	@Min(0)
 	private int questionTitleId;
-	@Size(min=1)
+	@Min(0)
 	private int ownerUserId;
 	@NotBlank(message="入力必須")
 	@Pattern(regexp = "^[a-zA-Z0-9ぁ-んァ-ン一-龥々ー]*$", message = "特殊文字は使用できません（英数字および日本語のみ許可）")
