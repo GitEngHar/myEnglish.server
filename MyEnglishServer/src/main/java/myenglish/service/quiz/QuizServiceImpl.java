@@ -23,35 +23,6 @@ public class QuizServiceImpl implements QuizService{
 	private final QuestionTitlePluginRepository questionTitlePluginRepository;
 	private final QuestionAnswerPluginRepository questionAnswerPluginRepository;
 
-	//問題を追加する
-	@Override
-	public void insertQuestion(
-			MyEnglishQuizDetailsEntity quiz) {
-		questionDetailsPluginRepository.insert_question(quiz);
-	};
-
-	//タイトル内の問題を1つ削除する
-	@Override
-	public void deleteQuestion(MyEnglishQuizDetailsEntity quiz) {
-		questionDetailsPluginRepository.delete_question(quiz);
-	};
-
-
-	@Override
-	public void updateQuestionDetails(MyEnglishQuizDetailsEntity quiz) {
-		questionDetailsPluginRepository.update_question(quiz);
-	}
-
-	// 問題を取得する
-	@Override
-	public List<MyEnglishQuizDetailsEntity> getQuestionDetails(
-			MyEnglishQuizTitleEntity title){
-		return questionDetailsPluginRepository.selectQuestionByTitleId(title.getQuestionTitleId());
-	}
-	@Override
-	public MyEnglishQuizDetailsEntity getQuestionDetailsById(int id) {
-		return questionDetailsPluginRepository.selectQuestionByDetailsId(id) ;
-	};
 	@Override
 	public List<MyEnglishQuizAnswerEntity> getQuestionAnswer(MyEnglishQuizTitleEntity title){
 		return questionAnswerPluginRepository.selectQuestioAnswernByTitleId(title.getQuestionTitleId());

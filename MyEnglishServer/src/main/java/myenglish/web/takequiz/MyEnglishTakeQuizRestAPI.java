@@ -5,6 +5,9 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import jakarta.servlet.http.HttpSession;
+import myenglish.service.quiz.takequiz.TakeQuizServiceImpl;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,27 +28,17 @@ import myenglish.web.form.MyEnglishQuizTitleForm;
 @RequiredArgsConstructor
 @RestController
 public class MyEnglishTakeQuizRestAPI {
-	private final QuizServiceImpl quizservice;
+	private final TakeQuizServiceImpl takeQuizService;
 	/* クイズを開始 */
 	@CrossOrigin
 	(origins = "http://localhost:3000")
 	@PostMapping("/")
-	public List<MyEnglishQuizDetailsWrapperForm> takeQuiz(@RequestBody  MyEnglishQuizTitleForm questionTitle) {
-
-		// 対象の問題と答えをWrapperへ格納
-		MyEnglishQuizTitleEntity myEnglishQuestionTitleEntity = new MyEnglishQuizTitleEntity();
-		myEnglishQuestionTitleEntity.setQuestionTitleId(questionTitle.getQuestionTitleId());
-		List<MyEnglishQuizAnswerEntity> myEnglishQuizAnswerEntity = quizservice.getQuestionAnswer(myEnglishQuestionTitleEntity);
-		List<MyEnglishQuizDetailsEntity> myEnglishQuizDetailsEntity = quizservice.getQuestionDetails(myEnglishQuestionTitleEntity);
-		
-		// 返信用にWrapperへ格納 (サイズが異なる場合への対応)
-		List<MyEnglishQuizDetailsWrapperEntity> MyEnglishQuizDetailsWrapperEntityList = IntStream.range(0,Math.min(myEnglishQuizDetailsEntity.size(), myEnglishQuizAnswerEntity.size()))
-				.mapToObj(i -> new MyEnglishQuizDetailsWrapperEntity(myEnglishQuizAnswerEntity.get(i),myEnglishQuizDetailsEntity.get(i))).collect(Collectors.toList());		
-		
-		List<MyEnglishQuizDetailsWrapperForm> MyEnglishQuizDetailsWrapperFormList = MyEnglishQuizDetailsWrapperEntityList.stream()
-			.map(wrapperEntity -> MyEnglishQuizDetailsWrapperFormHelper.convertToForm(wrapperEntity)
-			).collect(Collectors.toList());
-		
-		return MyEnglishQuizDetailsWrapperFormList;	
+	public List<MyEnglishQuizDetailsWrapperForm> takeQuiz(@RequestBody  @Validated MyEnglishQuizTitleForm questionTitle, BindingResult bindingResult,HttpSession session) {
+		if(bindingResult.hasErrors()){
+			System.out.println("ERORR");
+			return null;
+		}else{
+			return takeQuizService.takeQuiz(questionTitle,session);
 		}
+}
 }

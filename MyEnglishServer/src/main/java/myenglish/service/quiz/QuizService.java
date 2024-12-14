@@ -9,12 +9,6 @@ import myenglish.domain.MyEnglishUserEntity;
 
 public interface QuizService {
 
-	/* クイズに紐づく問題 */
-	List<MyEnglishQuizDetailsEntity> getQuestionDetails(MyEnglishQuizTitleEntity title);
-	MyEnglishQuizDetailsEntity getQuestionDetailsById(int id);
-	void insertQuestion(MyEnglishQuizDetailsEntity quest); 
-	void deleteQuestion(MyEnglishQuizDetailsEntity quiz);
-	void updateQuestionDetails(MyEnglishQuizDetailsEntity quiz);
 	
 	/*クイズの答え*/
 	// Detailsが消されるとAnswerも消えるため不要
