@@ -3,9 +3,11 @@ package myenglish.web.quizdetails;
 import java.util.List;
 import java.util.Optional;
 
+import com.nimbusds.oauth2.sdk.http.HTTPResponse;
 import jakarta.servlet.http.HttpSession;
 import myenglish.helper.MyEnglishQuizAnswerFormHelper;
 import myenglish.helper.MyEnglishQuizDetailsFormHelper;
+import myenglish.service.quiz.details.QuizDetailsServiceImpl;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -36,51 +38,38 @@ import myenglish.web.form.MyEnglishQuizTitleForm;
 @RestController
 public class MyEnglishQuizDetailsRestAPI{
 	
-	private final QuizServiceImpl quizService;
+	private final QuizDetailsServiceImpl quizDetailsService;
 	
 	/** クイズ問題画面 **/
 	@CrossOrigin
 	(origins = "http://localhost:3000")
 	@PostMapping("/")
-	public List<MyEnglishQuizDetailsEntity> quizdetails(@RequestBody MyEnglishQuizTitleForm quiestionTitle, HttpSession session) {
-		// セッションからユーザーIDを取得する
-		int userId = Integer.parseInt((String) session.getAttribute("userId"));
-		MyEnglishQuizTitleEntity quiestionTitleEntity = MyEnglishQuizTitleFormHelper.convertToEntity(quiestionTitle);
-		quiestionTitleEntity.setOwnerUserId(userId);
-		/** クイズタイトルに該当の問題情報を取得する **/
-		List<MyEnglishQuizDetailsEntity> quizDetails = 
-				quizService.getQuestionDetails(quiestionTitleEntity);
-		
-		return quizDetails;
+	public List<MyEnglishQuizDetailsEntity> quizdetails(@RequestBody @Validated MyEnglishQuizTitleForm quiestionTitle, BindingResult bindingResult,HttpSession session) {
+		if(bindingResult.hasErrors()){
+			//TODO: 400エラーと分かる内容を返す
+			System.out.println("ERROR!");
+			return null;
+		}else{
+			/** クイズタイトルに該当の問題情報を取得する **/
+			List<MyEnglishQuizDetailsEntity> quizDetails =
+					quizDetailsService.getQuestionDetails(quiestionTitle,session);
+			return quizDetails;
+		}
 	}
 	
 	/* クイズ情報を追加する */
 	@CrossOrigin
 	(origins = "http://localhost:3000")
 	@PostMapping("/save")
-	public void saveQuizDetails(@RequestBody  MyEnglishQuizDetailsWrapperForm quizDetailsWrapperForm
+	public void saveQuizDetails(@RequestBody @Validated MyEnglishQuizDetailsWrapperForm quizDetailsWrapperForm,
+								BindingResult bindingResult
 			) {
-		
-		// クイズタイトルIDを取得
-		int parentQuestId = quizDetailsWrapperForm.getMyEnglishQuizDetailsForm().getQuestionTitleId();
-		
-		// 入力で受け取った各FormをWrapperへ変換
-		MyEnglishQuizDetailsForm questionDetailsForm = quizDetailsWrapperForm.getMyEnglishQuizDetailsForm();
-		MyEnglishQuizAnswerForm questionAnswerForm = quizDetailsWrapperForm.getMyEnglishQuizAnswerForm();
-		MyEnglishQuizDetailsWrapperForm questionDetailsWrapperForm = new MyEnglishQuizDetailsWrapperForm();
-		questionDetailsWrapperForm.setMyEnglishQuizAnswerForm(questionAnswerForm);
-		questionDetailsWrapperForm.setMyEnglishQuizDetailsForm(questionDetailsForm);
-		MyEnglishQuizDetailsWrapperEntity questionDetailsWrapperEntity = MyEnglishQuizDetailsWrapperFormHelper.convertToEntity(questionDetailsWrapperForm);
-
-		// 問題と答えを追加
-		quizService.insertQuestion(questionDetailsWrapperEntity.getMyEnglishQuizDetailsEntity());
-		
-		// 問題のIDを取得し答えのEntityにセットする
-		Optional<MyEnglishQuizDetailsEntity> questionLatestDetailsEntity = quizService.getQuestionLastestDetails(parentQuestId);
-		int latestQuestionDetailsId = questionLatestDetailsEntity.get().getQuestionDetailsId();
-		questionDetailsWrapperEntity.getMyEnglishQuizAnswerEntity().setQuestionDetailsId(latestQuestionDetailsId);
-		questionDetailsWrapperEntity.getMyEnglishQuizAnswerEntity().setQuestionTitleId(parentQuestId);
-		quizService.insertQuestionAnswer(questionDetailsWrapperEntity.getMyEnglishQuizAnswerEntity());
+		if(bindingResult.hasErrors()){
+			// TODO:400エラー
+			System.out.println("ERROR!");
+		}else{
+			quizDetailsService.insertQuestionAnswer(quizDetailsWrapperForm);
+		}
 	}
 	
 	/*クイズ削除 delete */
@@ -88,33 +77,35 @@ public class MyEnglishQuizDetailsRestAPI{
 	(origins = "http://localhost:3000")
 	@PostMapping("/delete")
 	public void quizDelete(@RequestBody  MyEnglishQuizDetailsForm quizDetailsForm) {
-		// TODO: 複数ユーザ利用の場合他ユーザーのデータを削除させないような仕組みが必要そう
-		MyEnglishQuizDetailsEntity entity =  quizService.getQuestionDetailsById(quizDetailsForm.getQuestionDetailsId());
-		quizService.deleteQuestion(entity);
+		quizDetailsService.deleteQuestion(quizDetailsForm);
 	}
 	
 	/* クイズ編集画面 */
 	@CrossOrigin
 	(origins = "http://localhost:3000")
 	@PostMapping("/edit")
-	public MyEnglishQuizAnswerForm quizEdit(@RequestBody  MyEnglishQuizDetailsForm quizDetailsForm) {
-		MyEnglishQuizAnswerEntity questionAnswerEntity = quizService.getQuestionAnswerById(quizDetailsForm.getQuestionDetailsId());
-		return MyEnglishQuizAnswerFormHelper.convertToForm(questionAnswerEntity);
+	public MyEnglishQuizAnswerForm quizEdit(@RequestBody @Validated MyEnglishQuizDetailsForm quizDetailsForm,BindingResult bindingResult) {
+		if(bindingResult.hasErrors()){
+			System.out.println("ERROR!");
+			return null;
+		}else{
+			return quizDetailsService.getQuestionAnswerById(quizDetailsForm);
+		}
+
 	}
 	
 	/* クイズ更新画面 */
 	@CrossOrigin
 	(origins = "http://localhost:3000")
 	@PostMapping("/update")
-	public void quizForm(@RequestBody MyEnglishQuizDetailsWrapperForm quizDetailsWrapperForm) {
+	public void quizForm(@RequestBody @Validated MyEnglishQuizDetailsWrapperForm quizDetailsWrapperForm,BindingResult bindingResult,HttpSession session) {
 			// TODO:エラーハンドル
 			/* 編集した内容で問題と答えをアップデート */
-			MyEnglishQuizDetailsWrapperEntity questionDetailsWrapperEntity = MyEnglishQuizDetailsWrapperFormHelper.convertToEntity(quizDetailsWrapperForm);
-			quizService.updateQuestionDetails(questionDetailsWrapperEntity.getMyEnglishQuizDetailsEntity());
-			// 回答に問題とタイトルのIDを紐づける
-			int quiestionDetailsId = quizDetailsWrapperForm.getMyEnglishQuizDetailsForm().getQuestionDetailsId();
-			questionDetailsWrapperEntity.getMyEnglishQuizAnswerEntity().setQuestionDetailsId(quiestionDetailsId);
-			quizService.updateQuestionAnswer(questionDetailsWrapperEntity.getMyEnglishQuizAnswerEntity());
+		if(bindingResult.hasErrors()){
+			System.out.println("ERROR!");
+		}else{
+			quizDetailsService.updateQuestionAnswer(quizDetailsWrapperForm);
 		}
+	}
 
 }
