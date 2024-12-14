@@ -122,4 +122,9 @@ public class QuizDetailsServiceImpl implements QuizDetailsService {
 		return myEnglishQuizDetailsEntity.stream().max(Comparator.comparing(MyEnglishQuizDetailsEntity::getCreatedDate));
 	}
 
+	@Override
+	public List<MyEnglishQuizAnswerEntity>  getQuestionAnswer(int id){
+		return questionAnswerPluginRepository.selectQuestioAnswernByTitleId(id);
+	}
+
 }

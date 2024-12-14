@@ -25,6 +25,7 @@ public interface QuizDetailsService {
 	MyEnglishQuizAnswerForm getQuestionAnswerById(MyEnglishQuizDetailsForm quizDetailsForm);
 	void updateQuestionAnswer(MyEnglishQuizDetailsWrapperForm quizDetailsWrapperForm);
 	Optional<MyEnglishQuizDetailsEntity> getQuestionLastestDetails(int id);
+	List<MyEnglishQuizAnswerEntity>  getQuestionAnswer(int id);
 }
 
 
