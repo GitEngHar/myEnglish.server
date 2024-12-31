@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS question_core (
   question_title varchar(255) NOT NULL,
   created_date DATETIME NOT NULL,
   update_date DATETIME NOT NULL,
+  UNIQUE (owner_user_id, question_title),
   FOREIGN KEY (owner_user_id) REFERENCES user_root (user_id) ON DELETE CASCADE
 )DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
