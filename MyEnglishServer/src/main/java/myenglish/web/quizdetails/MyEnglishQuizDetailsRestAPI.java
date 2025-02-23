@@ -4,6 +4,7 @@ import java.util.List;
 import jakarta.servlet.http.HttpSession;
 
 import myenglish.service.quiz.details.QuizDetailsServiceImpl;
+import myenglish.service.quiz.takequiz.TakeQuizServiceImpl;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -25,7 +26,7 @@ import myenglish.web.form.MyEnglishQuizTitleForm;
 public class MyEnglishQuizDetailsRestAPI{
 	
 	private final QuizDetailsServiceImpl quizDetailsService;
-	
+	private final TakeQuizServiceImpl takeQuizService;
 	/** クイズ問題画面 **/
 	@CrossOrigin
 	(origins = "http://localhost:3000")
@@ -33,7 +34,7 @@ public class MyEnglishQuizDetailsRestAPI{
 	public List<MyEnglishQuizDetailsEntity> quizdetails(@RequestBody @Validated MyEnglishQuizTitleForm quiestionTitle, BindingResult bindingResult,HttpSession session) {
 		if(bindingResult.hasErrors()){
 			//TODO: 400エラーと分かる内容を返す
-			System.out.println("ERROR!");
+			System.out.println("ERROR! quizdetails");
 			return null;
 		}else{
 			/** クイズタイトルに該当の問題情報を取得する **/
@@ -42,7 +43,20 @@ public class MyEnglishQuizDetailsRestAPI{
 			return quizDetails;
 		}
 	}
-	
+
+	/** クイズ問題と回答を全て取得する **/
+	@CrossOrigin
+			(origins = "http://localhost:3000")
+	@PostMapping("/all")
+	public List<MyEnglishQuizDetailsWrapperForm> quizDetailsAll(@RequestBody  @Validated MyEnglishQuizTitleForm questionTitle, BindingResult bindingResult,HttpSession session) {
+		if(bindingResult.hasErrors()){
+			System.out.println("ERORR");
+			return null;
+		}else{
+			return takeQuizService.takeQuiz(questionTitle,session);
+		}
+	}
+
 	/* クイズ情報を追加する */
 	@CrossOrigin
 	(origins = "http://localhost:3000")
@@ -52,7 +66,7 @@ public class MyEnglishQuizDetailsRestAPI{
 			) {
 		if(bindingResult.hasErrors()){
 			// TODO:400エラー
-			System.out.println("ERROR!");
+			System.out.println("ERROR! saveQuizDetails");
 		}else{
 			quizDetailsService.insertQuestionAnswer(quizDetailsWrapperForm);
 		}
@@ -67,12 +81,13 @@ public class MyEnglishQuizDetailsRestAPI{
 	}
 	
 	/* クイズ編集画面 */
+	//TODO: 名前と役割が合ってないので、リファクタする
 	@CrossOrigin
 	(origins = "http://localhost:3000")
 	@PostMapping("/edit")
 	public MyEnglishQuizAnswerForm quizEdit(@RequestBody @Validated MyEnglishQuizDetailsForm quizDetailsForm,BindingResult bindingResult) {
 		if(bindingResult.hasErrors()){
-			System.out.println("ERROR!");
+			System.out.println("ERROR! quizEdit");
 			return null;
 		}else{
 			return quizDetailsService.getQuestionAnswerById(quizDetailsForm);
@@ -88,7 +103,7 @@ public class MyEnglishQuizDetailsRestAPI{
 			// TODO:エラーハンドル
 			/* 編集した内容で問題と答えをアップデート */
 		if(bindingResult.hasErrors()){
-			System.out.println("ERROR!");
+			System.out.println("ERROR! quizForm");
 		}else{
 			quizDetailsService.updateQuestionAnswer(quizDetailsWrapperForm);
 		}
