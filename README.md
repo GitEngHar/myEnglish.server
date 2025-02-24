@@ -32,3 +32,9 @@ colima stop
 vim ~/.colima/default/colima.yaml  # memmoty をよしなにかえる
 colima start
 ```
+
+local 検証用 port転送設定
+```shell
+kubectl port-forward service/myenglish-server-service -nmyenglish  8080:8080
+kubectl port-forward deployment/myenglish-front-deployment -nmyenglish  8082:80
+```
