@@ -39,11 +39,17 @@ public interface QuestionTitlePluginRepository {
 		@Insert("INSERT INTO question_core(owner_user_id,question_title,created_date,update_date) "
 				+ "VALUES(#{ownerUserId},#{questionTitle},CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)")
 		void insert_title(MyEnglishQuizTitleEntity MyEnglishQuizTitleEntity);
+		/** タイトルの削除 **/
+		@Delete("DELETE FROM question_core WHERE question_title_id=#{questionTitleId}")
+		void delete_title(int questionTitleId);
 		/** タイトルの更新 **/
 		@Update("UPDATE question_core SET question_title=#{questionTitle} "
 				+ "WHERE question_title_id=#{questionTitleId}")
 		void update_title(MyEnglishQuizTitleEntity MyEnglishQuizTitleEntity);
-		/** タイトルの削除 **/
-		@Delete("DELETE FROM question_core WHERE question_title_id=#{questionTitleId}")
-		void delete_title(int questionTitleId);
+
+		/** タイトルを古い問題を元に更新 **/
+		@Update("UPDATE question_core SET question_title=#{MyEnglishQuizTitleEntity.questionTitle} "
+				+ "WHERE question_title=#{oldQuestionTitle} AND owner_user_id=#{MyEnglishQuizTitleEntity.ownerUserId}")
+		void update_title_by_old_question(MyEnglishQuizTitleEntity MyEnglishQuizTitleEntity,String oldQuestionTitle);
+
 }

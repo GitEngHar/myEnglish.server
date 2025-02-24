@@ -28,7 +28,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class QuizDetailsServiceImpl implements QuizDetailsService {
 	private final QuestionDetailsPluginRepository questionDetailsPluginRepository;
-	private final QuestionTitlePluginRepository questionTitlePluginRepository;
 	private final QuestionAnswerPluginRepository questionAnswerPluginRepository;
 
 	//問題を追加する
@@ -95,8 +94,6 @@ public class QuizDetailsServiceImpl implements QuizDetailsService {
 		questionDetailsWrapperEntity.getMyEnglishQuizAnswerEntity().setQuestionDetailsId(latestQuestionDetailsId);
 		questionDetailsWrapperEntity.getMyEnglishQuizAnswerEntity().setQuestionTitleId(parentQuestId);
 		questionAnswerPluginRepository.insert_question_answer(questionDetailsWrapperEntity.getMyEnglishQuizAnswerEntity());
-
-
 	}
 
 	@Override

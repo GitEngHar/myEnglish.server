@@ -52,8 +52,28 @@ public class QuizTitleServiceImpl implements QuizTitleService {
 	@Override
 	public void updateQuestion(MyEnglishQuizTitleForm form,HttpSession session) {
 		int userId = Integer.parseInt((String) session.getAttribute("userId"));
+		int questionId = form.getQuestionTitleId();
+		String oldQuestionTitle = ""; //新規データ追加時に検索する為の旧データ
 		MyEnglishQuizTitleEntity titleEntity = MyEnglishQuizTitleFormHelper.convertToEntity(form);
 		titleEntity.setOwnerUserId(userId);
+		/**
+		 * ,が存在する場合の処理
+		 * */
+		if(form.getQuestionTitle().contains(",")){
+			String[] splitQuestion = form.getQuestionTitle().split(",");
+			String newQuestionTitle = splitQuestion[0];
+			titleEntity.setQuestionTitle(newQuestionTitle);
+			if(questionId == 0){
+				// 旧タイトルデータを取得
+				oldQuestionTitle = splitQuestion[1];
+				questionTitlePluginRepository.update_title_by_old_question(titleEntity,oldQuestionTitle);
+				return;
+			}
+			questionTitlePluginRepository.update_title(titleEntity);
+			return;
+		}
+		// questionId が 0の場合 新規追加時の編集のため Titleをperseして旧titleでクエリする
+
 		questionTitlePluginRepository.update_title(titleEntity);
 	}
 
