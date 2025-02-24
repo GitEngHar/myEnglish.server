@@ -1,5 +1,6 @@
 # Java build Base Image
-FROM eclipse-temurin
+# FROM eclipse-temurin ## amd image
+FROM amazoncorretto:21
 
 # 作業ディレクトリを設定
 WORKDIR /app
