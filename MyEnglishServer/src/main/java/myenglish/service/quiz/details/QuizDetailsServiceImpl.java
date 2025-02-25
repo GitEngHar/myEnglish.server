@@ -12,6 +12,7 @@ import myenglish.helper.MyEnglishQuizTitleFormHelper;
 import myenglish.mapper.QuestionAnswerPluginRepository;
 import myenglish.mapper.QuestionDetailsPluginRepository;
 import myenglish.mapper.QuestionTitlePluginRepository;
+import myenglish.service.user.UserService;
 import myenglish.web.form.MyEnglishQuizAnswerForm;
 import myenglish.web.form.MyEnglishQuizDetailsForm;
 import myenglish.web.form.MyEnglishQuizDetailsWrapperForm;
@@ -29,7 +30,7 @@ import java.util.Optional;
 public class QuizDetailsServiceImpl implements QuizDetailsService {
 	private final QuestionDetailsPluginRepository questionDetailsPluginRepository;
 	private final QuestionAnswerPluginRepository questionAnswerPluginRepository;
-
+	private final UserService userService;
 	//問題を追加する
 	@Override
 	public void insertQuestion(
@@ -56,7 +57,7 @@ public class QuizDetailsServiceImpl implements QuizDetailsService {
 			MyEnglishQuizTitleForm quiestionTitle,
 			HttpSession session
 			){
-		int userId = Integer.parseInt((String) session.getAttribute("userId"));
+		int userId = userService.getUserId(session);
 		MyEnglishQuizTitleEntity quiestionTitleEntity = MyEnglishQuizTitleFormHelper.convertToEntity(quiestionTitle);
 		quiestionTitleEntity.setOwnerUserId(userId);
 		return questionDetailsPluginRepository.selectQuestionByTitleId(quiestionTitleEntity.getQuestionTitleId());
