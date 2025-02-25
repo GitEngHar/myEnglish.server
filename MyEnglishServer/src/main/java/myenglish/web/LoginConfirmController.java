@@ -17,13 +17,10 @@ public class LoginConfirmController {
      * */
     @GetMapping("login/confirm")
     public String loginConfirm(HttpSession session) {
-        int userId = userService.getUserId(session);
-        // ユーザー情報を取得する
-        MyEnglishUserEntity myEnglishUserEntity = userService.getUser(null, userId);
         // ユーザー情報が取得できない場合は未認証レスポンス
-        if(myEnglishUserEntity == null) {
-            return "{authenticated:false}";
+        if (session.getAttribute("userId") == null) {
+            return "{\"authenticated\": false}";
         }
-        return "{authenticated:true}";
+        return "{\"authenticated\": true}";
     }
 }
