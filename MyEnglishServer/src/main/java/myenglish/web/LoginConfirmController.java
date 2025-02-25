@@ -2,7 +2,6 @@ package myenglish.web;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import myenglish.domain.MyEnglishUserEntity;
 import myenglish.service.user.UserService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
