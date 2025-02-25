@@ -24,7 +24,7 @@ public class QuizTitleServiceImpl implements QuizTitleService {
 			HttpSession session)
 	{
 		MyEnglishQuizTitleEntity titleEntity = MyEnglishQuizTitleFormHelper.convertToEntity(title);
-		int userId = Integer.parseInt((String) session.getAttribute("userId"));
+		int userId = userService.getUserId(session);
 		titleEntity.setOwnerUserId(userId);
 		questionTitlePluginRepository.insert_title(titleEntity);
 	};
@@ -42,7 +42,7 @@ public class QuizTitleServiceImpl implements QuizTitleService {
 	@Override
 	public List<MyEnglishQuizTitleEntity> getQuestionTitle(
 			HttpSession session){
-		int userId = Integer.parseInt((String) session.getAttribute("userId"));
+		int userId = userService.getUserId(session);
 		MyEnglishUserEntity userProperty = userService.getUser(null, userId);
 		userProperty.setUserId(userId);
 		return questionTitlePluginRepository.select_by_userid(userProperty.getUserId());
@@ -51,7 +51,7 @@ public class QuizTitleServiceImpl implements QuizTitleService {
 	//タイトルの問題をアップデートする
 	@Override
 	public void updateQuestion(MyEnglishQuizTitleForm form,HttpSession session) {
-		int userId = Integer.parseInt((String) session.getAttribute("userId"));
+		int userId = userService.getUserId(session);
 		int questionId = form.getQuestionTitleId();
 		String oldQuestionTitle = ""; //新規データ追加時に検索する為の旧データ
 		MyEnglishQuizTitleEntity titleEntity = MyEnglishQuizTitleFormHelper.convertToEntity(form);
