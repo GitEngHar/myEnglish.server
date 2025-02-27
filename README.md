@@ -1,7 +1,22 @@
 # myEnglish.server
 MyEnglish.Server
 
-## DockerCommand
+## 設計
+
+
+### システム関連図
+![MyEnglishシステム関連 drawio](https://github.com/user-attachments/assets/00126fa1-37d4-4219-b5be-d14c037ffdb5)
+
+### ユースケース図
+![MyEnglishユースケース drawio](https://github.com/user-attachments/assets/be3442c3-d2d3-4e3a-8019-96aff34f9de0)
+
+### オブジェクト図
+![MyEnglishオブジェクト drawio](https://github.com/user-attachments/assets/09be72d8-9bbe-41f7-9f2f-1b36ac9bfd47)
+
+### ドメインモデル
+![MyEnglishドメインモデル drawio](https://github.com/user-attachments/assets/b9e108db-c0dd-4aa7-9c1a-6dde4803103e)
+
+## K8s検証用
 
 ```shell
 aws ecr get-login-password --region ap-northeast-1 | docker login --username AWS --password-stdin ${AWS_ACCOUNTID}.dkr.ecr.ap-northeast-1.amazonaws.com
