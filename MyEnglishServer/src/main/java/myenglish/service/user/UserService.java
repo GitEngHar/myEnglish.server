@@ -1,7 +1,7 @@
 package myenglish.service.user;
 
 import jakarta.servlet.http.HttpSession;
-import myenglish.domain.MyEnglishUserEntity;
+import myenglish.domain.entity.MyEnglishUserEntity;
 
 public interface UserService {
     int createUser(String name,String email);

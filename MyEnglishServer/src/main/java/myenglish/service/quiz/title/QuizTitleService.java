@@ -1,7 +1,7 @@
 package myenglish.service.quiz.title;
 
 import jakarta.servlet.http.HttpSession;
-import myenglish.domain.MyEnglishQuizTitleEntity;
+import myenglish.domain.entity.MyEnglishQuizTitleEntity;
 import myenglish.web.form.MyEnglishQuizTitleForm;
 import java.util.List;
 

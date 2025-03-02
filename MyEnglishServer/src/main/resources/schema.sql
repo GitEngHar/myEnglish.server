@@ -19,30 +19,17 @@ CREATE TABLE IF NOT EXISTS question_core (
 )DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
--- クイズの問題
-CREATE TABLE IF NOT EXISTS question_details_plugin (
+-- クイズ情報
+CREATE TABLE IF NOT EXISTS question_details (
     question_details_id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     question_title_id INT NOT NULL,
     question_word varchar(255) NOT NULL,
+    answer_candidate_no_1 varchar(255) NOT NULL,
+    answer_candidate_no_2 varchar(255) NOT NULL,
+    answer_candidate_no_3 varchar(255) NOT NULL,
+    answer_candidate_no_4 varchar(255) NOT NULL,
+    answer_number varchar(255) NOT NULL,
     created_date DATETIME NOT NULL,
     update_date DATETIME NOT NULL,
     FOREIGN KEY (question_title_id) REFERENCES question_core(question_title_id) ON DELETE CASCADE
-)DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
--- クイズの回答候補
-CREATE TABLE IF NOT EXISTS question_details_answer_plugin (
-	/* TODO:answertとdetailsとtitleの組み合わせをuniqueにする */
-    question_answer_id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    question_title_id INT NOT NULL,
-    question_details_id INT NOT NULL, 
-    answer_id INT NOT NULL,
-    answer_candidate_no_1 varchar(255) NOT NULL, 
-    answer_candidate_no_2 varchar(255) NOT NULL, 
-    answer_candidate_no_3 varchar(255) NOT NULL, 
-    answer_candidate_no_4 varchar(255) NOT NULL, 
-    created_date DATETIME NOT NULL,
-    update_date DATETIME NOT NULL,
-    FOREIGN KEY (question_details_id) REFERENCES question_details_plugin(question_details_id) ON DELETE CASCADE,
-	FOREIGN KEY (question_title_id) REFERENCES question_core(question_title_id) ON DELETE CASCADE
 )DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

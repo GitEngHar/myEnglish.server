@@ -2,7 +2,7 @@ package myenglish.service.user;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
-import myenglish.domain.MyEnglishUserEntity;
+import myenglish.domain.entity.MyEnglishUserEntity;
 import myenglish.mapper.UserRootRepository;
 import org.springframework.stereotype.Service;
 
