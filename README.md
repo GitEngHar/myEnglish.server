@@ -50,7 +50,7 @@ colima start
 
 local kube-app 検証用 port転送設定
 ```shell
-kubectl port-forward service/myenglish-server-service -nmyenglish  8082:8080
+kubectl port-forward service/myenglish-server-service -nmyenglish  8080:8080
 kubectl port-forward deployment/myenglish-front-deployment -nmyenglish  3000:80
 ```
 
