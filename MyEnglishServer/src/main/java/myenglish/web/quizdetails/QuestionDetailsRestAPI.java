@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("quizdetailsrest")
 @RequiredArgsConstructor
 @RestController
-public class MyEnglishQuizDetailsRestAPI{
+public class QuestionDetailsRestAPI {
 	
 	private final QuizDetailsServiceImpl quizDetailsService;
 	/** クイズ問題画面 **/
@@ -27,7 +27,7 @@ public class MyEnglishQuizDetailsRestAPI{
 			(origins = "http://localhost:3000")
 	@PostMapping("/")
 	public List<QuestionDetailsResponse> quizdetails(
-			@RequestBody @Validated MyEnglishQuizTitleForm quiestionTitle,
+			@RequestBody @Validated QuestionTitleForm quiestionTitle,
 			BindingResult bindingResult,
 			HttpSession session) {
 		if(bindingResult.hasErrors()){
@@ -41,7 +41,7 @@ public class MyEnglishQuizDetailsRestAPI{
 	@CrossOrigin
 			(origins = "http://localhost:3000")
 	@PostMapping("/all")
-	public List<QuestionDetailsResponse> quizDetailsAll(@RequestBody  @Validated MyEnglishQuizTitleForm questionTitle, BindingResult bindingResult,HttpSession session) {
+	public List<QuestionDetailsResponse> quizDetailsAll(@RequestBody  @Validated QuestionTitleForm questionTitle, BindingResult bindingResult, HttpSession session) {
 		if(bindingResult.hasErrors()) {
 			System.out.println("ERORR");
 			return null;

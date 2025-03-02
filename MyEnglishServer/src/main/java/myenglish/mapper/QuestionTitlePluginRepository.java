@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.*;
 
-import myenglish.domain.entity.MyEnglishQuizTitleEntity;
+import myenglish.domain.entity.QuestionTitleEntity;
 
 @Mapper
 public interface QuestionTitlePluginRepository {
@@ -18,7 +18,7 @@ public interface QuestionTitlePluginRepository {
 				}
 		)
 		/** titleIdからクエストタイトルを取得 **/ 
-		List<MyEnglishQuizTitleEntity> select_by_userid(int ownerUserId);
+		List<QuestionTitleEntity> select_by_userid(int ownerUserId);
 
 		@ConstructorArgs(
 			{
@@ -28,22 +28,22 @@ public interface QuestionTitlePluginRepository {
 			}
 		)
 		@Select("SELECT * FROM question_core WHERE question_title_id=#{questionTitleId}")
-	    MyEnglishQuizTitleEntity select_by_id(int questionTitleId);
+		QuestionTitleEntity select_by_id(int questionTitleId);
 		/** タイトルの追加 **/
 		@Insert("INSERT INTO question_core(owner_user_id,question_title,created_date,update_date) "
 				+ "VALUES(#{ownerUserId},#{questionTitle},CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)")
-		void insert_title(MyEnglishQuizTitleEntity MyEnglishQuizTitleEntity);
+		void insert_title(QuestionTitleEntity QuestionTitleEntity);
 		/** タイトルの削除 **/
 		@Delete("DELETE FROM question_core WHERE question_title_id=#{questionTitleId}")
 		void delete_title(int questionTitleId);
 		/** タイトルの更新 **/
 		@Update("UPDATE question_core SET question_title=#{questionTitle} "
 				+ "WHERE question_title_id=#{questionTitleId}")
-		void update_title(MyEnglishQuizTitleEntity MyEnglishQuizTitleEntity);
+		void update_title(QuestionTitleEntity QuestionTitleEntity);
 
 		/** タイトルを古い問題を元に更新 **/
 		@Update("UPDATE question_core SET question_title=#{MyEnglishQuizTitleEntity.questionTitle} "
 				+ "WHERE question_title=#{oldQuestionTitle} AND owner_user_id=#{MyEnglishQuizTitleEntity.ownerUserId}")
-		void update_title_by_old_question(MyEnglishQuizTitleEntity MyEnglishQuizTitleEntity,String oldQuestionTitle);
+		void update_title_by_old_question(QuestionTitleEntity QuestionTitleEntity, String oldQuestionTitle);
 
 }
