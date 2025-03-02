@@ -20,18 +20,18 @@ public class QuizDetailsServiceImpl implements QuizDetailsService {
 
 	@Override
 	public List<QuestionDetailsResponse> getAllQuestionDetails(
-			MyEnglishQuizTitleForm questionTitle,
+			QuestionTitleForm questionTitle,
 			HttpSession session
 	){
 		// ユーザーIDを取得
 		int userId = userService.getUserId(session);
 		// 問題タイトルのentityをインスタンス生成
-		MyEnglishQuizTitleEntity questionTitleEntity = new MyEnglishQuizTitleEntity(
+		QuestionTitleEntity questionTitleEntity = new QuestionTitleEntity(
 				questionTitle.getQuestionTitleId(),
 				userId,
 				questionTitle.getQuestionTitle()
 		);
-		List<MyEnglishQuestionDetailsEntity> questionDetailsEntities = questionDetailsRepository.selectQuestionByTitleId(questionTitleEntity.questionTitleId());
+		List<QuestionDetailsEntity> questionDetailsEntities = questionDetailsRepository.selectQuestionByTitleId(questionTitleEntity.questionTitleId());
 		// DTOに変換して返す
 		return questionDetailsEntities.stream()
 				.map(QuestionDetailsResponse::fromEntity)
@@ -42,7 +42,7 @@ public class QuizDetailsServiceImpl implements QuizDetailsService {
 	@Override
 	public void insertQuestion(
 			QuestionDetailsForm questionDetailsForm) {
-		MyEnglishQuestionDetailsEntity questionDetailsEntity = new MyEnglishQuestionDetailsEntity(
+		QuestionDetailsEntity questionDetailsEntity = new QuestionDetailsEntity(
 				questionDetailsForm.getQuestionDetailsId(),
 				questionDetailsForm.getQuestionTitleId(),
 				questionDetailsForm.getQuestionWord(),
@@ -61,7 +61,7 @@ public class QuizDetailsServiceImpl implements QuizDetailsService {
 	//タイトル内の問題を1つ削除する
 	@Override
 	public void deleteQuestion(QuestionDetailsForm questionDetailsForm) {
-		MyEnglishQuestionDetailsEntity questionDetailsEntity = new MyEnglishQuestionDetailsEntity(
+		QuestionDetailsEntity questionDetailsEntity = new QuestionDetailsEntity(
 				questionDetailsForm.getQuestionDetailsId(),
 				questionDetailsForm.getQuestionTitleId(),
 				questionDetailsForm.getQuestionWord(),
@@ -79,7 +79,7 @@ public class QuizDetailsServiceImpl implements QuizDetailsService {
 
 	@Override
 	public void updateQuestionDetails(QuestionDetailsForm questionDetailsForm) {
-		MyEnglishQuestionDetailsEntity questionDetailsEntity = new MyEnglishQuestionDetailsEntity(
+		QuestionDetailsEntity questionDetailsEntity = new QuestionDetailsEntity(
 				questionDetailsForm.getQuestionDetailsId(),
 				questionDetailsForm.getQuestionTitleId(),
 				questionDetailsForm.getQuestionWord(),

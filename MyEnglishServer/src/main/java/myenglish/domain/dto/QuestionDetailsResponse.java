@@ -1,14 +1,14 @@
 package myenglish.domain.dto;
 
 
-import myenglish.domain.entity.MyEnglishQuestionDetailsEntity;
+import myenglish.domain.entity.QuestionDetailsEntity;
 
 import java.time.LocalDateTime;
 
 public record QuestionDetailsResponse(int questionDetailsId, int questionTitleId, String questionWord,
                                       String answerCandidateNo1, String answerCandidateNo2, String answerCandidateNo3, String answerCandidateNo4, int answerNumber,
                                       LocalDateTime createdDate, LocalDateTime updateDate) {
-    public static QuestionDetailsResponse fromEntity(MyEnglishQuestionDetailsEntity questionDetailsEntity) {
+    public static QuestionDetailsResponse fromEntity(QuestionDetailsEntity questionDetailsEntity) {
         return new QuestionDetailsResponse(
                 questionDetailsEntity.questionDetailsId(),
                 questionDetailsEntity.questionTitleId(),

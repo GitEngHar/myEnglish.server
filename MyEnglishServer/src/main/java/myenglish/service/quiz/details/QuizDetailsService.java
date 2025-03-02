@@ -10,7 +10,7 @@ public interface QuizDetailsService {
 
 	/* クイズに紐づく問題 */
 	List<QuestionDetailsResponse> getAllQuestionDetails(
-			MyEnglishQuizTitleForm quiestionTitle,
+			QuestionTitleForm quiestionTitle,
 			HttpSession session
 	);
 

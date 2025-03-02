@@ -1,11 +1,11 @@
 package myenglish.service.quiz.title;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import myenglish.domain.entity.MyEnglishQuizTitleEntity;
+import myenglish.domain.entity.QuestionTitleEntity;
 import myenglish.domain.entity.MyEnglishUserEntity;
 import myenglish.mapper.QuestionTitlePluginRepository;
 import myenglish.service.user.UserServiceImpl;
-import myenglish.web.form.MyEnglishQuizTitleForm;
+import myenglish.web.form.QuestionTitleForm;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -19,12 +19,12 @@ public class QuizTitleServiceImpl implements QuizTitleService {
 	//タイトルを追加する
 	@Override
 	public void insertQuestionTitle(
-			MyEnglishQuizTitleForm titleForm,
+			QuestionTitleForm titleForm,
 			HttpSession session)
 	{
 //		MyEnglishQuizTitleEntity titleEntity = MyEnglishQuizTitleFormHelper.convertToEntity(title);
 		int userId = userService.getUserId(session);
-		MyEnglishQuizTitleEntity titleEntity = new MyEnglishQuizTitleEntity(
+		QuestionTitleEntity titleEntity = new QuestionTitleEntity(
 				titleForm.getQuestionTitleId(),
 				userId,
 				titleForm.getQuestionTitle()
@@ -35,8 +35,8 @@ public class QuizTitleServiceImpl implements QuizTitleService {
 	//タイトルごと問題を削除する
 	@Override
 	public void deleteQuestionTitle(
-			MyEnglishQuizTitleForm titleForm) {
-		MyEnglishQuizTitleEntity titleEntity = new MyEnglishQuizTitleEntity(
+			QuestionTitleForm titleForm) {
+		QuestionTitleEntity titleEntity = new QuestionTitleEntity(
 				titleForm.getQuestionTitleId(),
 				0,
 				titleForm.getQuestionTitle()
@@ -46,7 +46,7 @@ public class QuizTitleServiceImpl implements QuizTitleService {
 
 	//対象ユーザーのタイトルを取得し、Mapで返す
 	@Override
-	public List<MyEnglishQuizTitleEntity> getQuestionTitle(
+	public List<QuestionTitleEntity> getQuestionTitle(
 			HttpSession session){
 		int userId = userService.getUserId(session);
 		MyEnglishUserEntity userProperty = userService.getUser(null, userId);
@@ -56,17 +56,17 @@ public class QuizTitleServiceImpl implements QuizTitleService {
 
 	//タイトルの問題をアップデートする
 	@Override
-	public void updateQuestionTitle(MyEnglishQuizTitleForm titleForm, HttpSession session) {
+	public void updateQuestionTitle(QuestionTitleForm titleForm, HttpSession session) {
 		int userId = userService.getUserId(session);
 		int questionId = titleForm.getQuestionTitleId();
 		String oldQuestionTitle = ""; //新規データ追加時に検索する為の旧データ
-		MyEnglishQuizTitleEntity titleEntity;
+		QuestionTitleEntity titleEntity;
 
 		 // フロントエンドでID同期されていない場合の処理
 		if(titleForm.getQuestionTitle().contains(",")){
 			String[] splitQuestion = titleForm.getQuestionTitle().split(",");
 			String newQuestionTitle = splitQuestion[0];
-			titleEntity = new MyEnglishQuizTitleEntity(
+			titleEntity = new QuestionTitleEntity(
 					titleForm.getQuestionTitleId(),
 					userId,
 					newQuestionTitle
@@ -81,7 +81,7 @@ public class QuizTitleServiceImpl implements QuizTitleService {
 			return;
 		}
 		// questionId が 0の場合 新規追加時の編集のため Titleをperseして旧titleでクエリする
-		titleEntity = new MyEnglishQuizTitleEntity(
+		titleEntity = new QuestionTitleEntity(
 				titleForm.getQuestionTitleId(),
 				userId,
 				titleForm.getQuestionTitle()
@@ -91,7 +91,7 @@ public class QuizTitleServiceImpl implements QuizTitleService {
 
 	//タイトルを取得する
 	@Override
-	public MyEnglishQuizTitleEntity getQuestionTitleById(
+	public QuestionTitleEntity getQuestionTitleById(
 			int questid){
 		return questionTitlePluginRepository.select_by_id(questid);
 	}

@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import myenglish.domain.entity.MyEnglishQuizTitleEntity;
-import myenglish.web.form.MyEnglishQuizTitleForm;
+import myenglish.domain.entity.QuestionTitleEntity;
+import myenglish.web.form.QuestionTitleForm;
 
 @RequestMapping(value="/quizrest")
 @RequiredArgsConstructor
@@ -27,10 +27,10 @@ public class QuestionControllerRestAPI {
 	 *  return : 対象ユーザーの問題タイトル全て
 	 * **/
 	@GetMapping("")
-	public List<MyEnglishQuizTitleEntity> entryQuiz(HttpSession session) {
+	public List<QuestionTitleEntity> entryQuiz(HttpSession session) {
 
 		// 問題のタイトルを取得
-		List<MyEnglishQuizTitleEntity> questionTitles = quizTitleService.getQuestionTitle(session);
+		List<QuestionTitleEntity> questionTitles = quizTitleService.getQuestionTitle(session);
 
 		// タイトルが一つもない場合は null を返す
 		boolean isGetTitleNull = questionTitles.stream().anyMatch(title -> title == null);
@@ -43,7 +43,7 @@ public class QuestionControllerRestAPI {
 	
 	/** クイズタイトルをDBへ保存 **/
 	@PostMapping("/save")
-	public void saveQuizTitle(@RequestBody @Validated MyEnglishQuizTitleForm form , BindingResult bindingResult, HttpSession session) {
+	public void saveQuizTitle(@RequestBody @Validated QuestionTitleForm form , BindingResult bindingResult, HttpSession session) {
 		if(bindingResult.hasErrors()) {
 			// TODO: 400で返す
 			System.out.println("!!!ERROR!!!");
@@ -55,7 +55,7 @@ public class QuestionControllerRestAPI {
 	
 	// クイズ更新画面
 	@PostMapping("/update")
-	public void quizForm(@RequestBody @Validated MyEnglishQuizTitleForm form, BindingResult bindingResult , HttpSession session) {
+	public void quizForm(@RequestBody @Validated QuestionTitleForm form, BindingResult bindingResult , HttpSession session) {
 		// TODO:エラーをハンドリングする
 		/** 編集した内容でアップデート **/
 		// セッションからユーザーIDを取得する
@@ -69,7 +69,7 @@ public class QuestionControllerRestAPI {
 	
 	/** クイズ削除 **/
 	@PostMapping("/delete")
-	public void quizTitleDelete(@RequestBody MyEnglishQuizTitleForm form) {
+	public void quizTitleDelete(@RequestBody QuestionTitleForm form) {
 		quizTitleService.deleteQuestionTitle(form);
 	}
 }

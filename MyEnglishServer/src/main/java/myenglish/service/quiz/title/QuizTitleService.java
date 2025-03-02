@@ -1,17 +1,17 @@
 package myenglish.service.quiz.title;
 
 import jakarta.servlet.http.HttpSession;
-import myenglish.domain.entity.MyEnglishQuizTitleEntity;
-import myenglish.web.form.MyEnglishQuizTitleForm;
+import myenglish.domain.entity.QuestionTitleEntity;
+import myenglish.web.form.QuestionTitleForm;
 import java.util.List;
 
 public interface QuizTitleService {
 	/* クイズのタイトル */
-	List<MyEnglishQuizTitleEntity> getQuestionTitle(HttpSession session);
-	MyEnglishQuizTitleEntity getQuestionTitleById(int questid);
-	void insertQuestionTitle(MyEnglishQuizTitleForm form, HttpSession session);
-	void updateQuestionTitle(MyEnglishQuizTitleForm form, HttpSession session);
-	void deleteQuestionTitle(MyEnglishQuizTitleForm form);
+	List<QuestionTitleEntity> getQuestionTitle(HttpSession session);
+	QuestionTitleEntity getQuestionTitleById(int questid);
+	void insertQuestionTitle(QuestionTitleForm form, HttpSession session);
+	void updateQuestionTitle(QuestionTitleForm form, HttpSession session);
+	void deleteQuestionTitle(QuestionTitleForm form);
 
 }
 

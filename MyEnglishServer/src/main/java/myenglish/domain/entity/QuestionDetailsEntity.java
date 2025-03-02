@@ -7,11 +7,11 @@ import java.util.List;
 /**
  * @param answerCandidateNo1 TODO: 配列にする
  */
-public record MyEnglishQuestionDetailsEntity(int questionDetailsId, int questionTitleId, String questionWord,
-                                       String answerCandidateNo1, String answerCandidateNo2, String answerCandidateNo3, String answerCandidateNo4,
-                                       int answerNumber,
-                                       LocalDateTime createdDate, LocalDateTime updateDate) {
-    public MyEnglishQuestionDetailsEntity {
+public record QuestionDetailsEntity(int questionDetailsId, int questionTitleId, String questionWord,
+                                    String answerCandidateNo1, String answerCandidateNo2, String answerCandidateNo3, String answerCandidateNo4,
+                                    int answerNumber,
+                                    LocalDateTime createdDate, LocalDateTime updateDate) {
+    public QuestionDetailsEntity {
         List<String> answerCandidates = Arrays.asList(
                 answerCandidateNo1,
                 answerCandidateNo2,
