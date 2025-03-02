@@ -1,8 +1,9 @@
-package myenglish.domain;
+package myenglish.domain.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+// TODO:削除する
 @Data
 @AllArgsConstructor
 public class MyEnglishQuizDetailsWrapperEntity {

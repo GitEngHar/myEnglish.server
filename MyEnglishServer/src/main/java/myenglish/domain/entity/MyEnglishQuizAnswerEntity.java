@@ -1,9 +1,12 @@
-package myenglish.domain;
+package myenglish.domain.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+/**
+ * クイズ回答オブジェクト
+ * */
+// TODO:削除する
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

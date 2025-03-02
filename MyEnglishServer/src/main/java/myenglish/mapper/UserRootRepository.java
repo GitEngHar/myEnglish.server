@@ -1,7 +1,7 @@
 package myenglish.mapper;
 import org.apache.ibatis.annotations.*;
 
-import myenglish.domain.MyEnglishUserEntity;
+import myenglish.domain.entity.MyEnglishUserEntity;
 
 @Mapper
 public interface UserRootRepository {
