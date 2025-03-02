@@ -1,6 +1,7 @@
 package myenglish.service.quiz.title;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import myenglish.domain.dto.QuestionTitleResponse;
 import myenglish.domain.entity.QuestionTitleEntity;
 import myenglish.domain.entity.MyEnglishUserEntity;
 import myenglish.mapper.QuestionTitlePluginRepository;
@@ -46,12 +47,13 @@ public class QuizTitleServiceImpl implements QuizTitleService {
 
 	//対象ユーザーのタイトルを取得し、Mapで返す
 	@Override
-	public List<QuestionTitleEntity> getQuestionTitle(
+	public List<QuestionTitleResponse> getQuestionTitle(
 			HttpSession session){
 		int userId = userService.getUserId(session);
 		MyEnglishUserEntity userProperty = userService.getUser(null, userId);
 		userProperty.setUserId(userId);
-		return questionTitlePluginRepository.select_by_userid(userProperty.getUserId());
+		List<QuestionTitleEntity> questionTitleEntity = questionTitlePluginRepository.select_by_userid(userProperty.getUserId());
+		return questionTitleEntity.stream().map(QuestionTitleResponse::fromEntity).toList();
 	};
 
 	//タイトルの問題をアップデートする
@@ -88,13 +90,4 @@ public class QuizTitleServiceImpl implements QuizTitleService {
 		);
 		questionTitlePluginRepository.update_title(titleEntity);
 	}
-
-	//タイトルを取得する
-	@Override
-	public QuestionTitleEntity getQuestionTitleById(
-			int questid){
-		return questionTitlePluginRepository.select_by_id(questid);
-	}
-
-
 }
