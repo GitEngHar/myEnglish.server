@@ -3,6 +3,7 @@ package myenglish.web.quiz;
 import java.util.List;
 
 import jakarta.servlet.http.HttpSession;
+import myenglish.domain.dto.QuestionTitleResponse;
 import myenglish.service.quiz.title.QuizTitleServiceImpl;
 
 import org.springframework.validation.BindingResult;
@@ -27,18 +28,8 @@ public class QuestionControllerRestAPI {
 	 *  return : 対象ユーザーの問題タイトル全て
 	 * **/
 	@GetMapping("")
-	public List<QuestionTitleEntity> entryQuiz(HttpSession session) {
-
-		// 問題のタイトルを取得
-		List<QuestionTitleEntity> questionTitles = quizTitleService.getQuestionTitle(session);
-
-		// タイトルが一つもない場合は null を返す
-		boolean isGetTitleNull = questionTitles.stream().anyMatch(title -> title == null);
-		if(isGetTitleNull) {
-			return null;
-		}
-
-		return questionTitles;
+	public List<QuestionTitleResponse> entryQuiz(HttpSession session) {
+		return quizTitleService.getQuestionTitle(session);
 	}
 	
 	/** クイズタイトルをDBへ保存 **/
