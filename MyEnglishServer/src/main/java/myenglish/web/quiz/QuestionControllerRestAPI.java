@@ -20,7 +20,7 @@ import myenglish.web.form.MyEnglishQuizTitleForm;
 @RequestMapping(value="/quizrest")
 @RequiredArgsConstructor
 @RestController
-public class MyEnglishQuizControllerRestAPI {
+public class QuestionControllerRestAPI {
 	private final QuizTitleServiceImpl quizTitleService;
 
 	/** クイズのトップ画面でのデータ取得
@@ -63,7 +63,7 @@ public class MyEnglishQuizControllerRestAPI {
 			// TODO: 400で返す
 			System.out.println("!!!ERROR!!!");
 		}else{
-			quizTitleService.updateQuestion(form,session);
+			quizTitleService.updateQuestionTitle(form,session);
 		}
 	}
 	

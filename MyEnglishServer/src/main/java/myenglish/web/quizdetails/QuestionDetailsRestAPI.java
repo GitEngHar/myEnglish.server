@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("quizdetailsrest")
 @RequiredArgsConstructor
 @RestController
-public class MyEnglishQuizDetailsRestAPI{
+public class QuestionDetailsRestAPI {
 	
 	private final QuizDetailsServiceImpl quizDetailsService;
 	/** クイズ問題画面 **/

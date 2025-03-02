@@ -56,7 +56,7 @@ public class QuizTitleServiceImpl implements QuizTitleService {
 
 	//タイトルの問題をアップデートする
 	@Override
-	public void updateQuestion(MyEnglishQuizTitleForm titleForm, HttpSession session) {
+	public void updateQuestionTitle(MyEnglishQuizTitleForm titleForm, HttpSession session) {
 		int userId = userService.getUserId(session);
 		int questionId = titleForm.getQuestionTitleId();
 		String oldQuestionTitle = ""; //新規データ追加時に検索する為の旧データ

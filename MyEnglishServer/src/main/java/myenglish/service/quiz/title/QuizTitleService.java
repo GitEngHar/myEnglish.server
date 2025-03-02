@@ -10,7 +10,7 @@ public interface QuizTitleService {
 	List<MyEnglishQuizTitleEntity> getQuestionTitle(HttpSession session);
 	MyEnglishQuizTitleEntity getQuestionTitleById(int questid);
 	void insertQuestionTitle(MyEnglishQuizTitleForm form, HttpSession session);
-	void updateQuestion(MyEnglishQuizTitleForm form, HttpSession session);
+	void updateQuestionTitle(MyEnglishQuizTitleForm form, HttpSession session);
 	void deleteQuestionTitle(MyEnglishQuizTitleForm form);
 
 }
