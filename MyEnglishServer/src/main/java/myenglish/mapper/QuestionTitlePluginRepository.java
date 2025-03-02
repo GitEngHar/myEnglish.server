@@ -2,37 +2,31 @@ package myenglish.mapper;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
-import myenglish.domain.MyEnglishQuizTitleEntity;
+import myenglish.domain.entity.MyEnglishQuizTitleEntity;
 
 @Mapper
 public interface QuestionTitlePluginRepository {
-		/** userIdからクエストタイトルを取得 **/ 
+		/** userIdからクエストタイトルを取得 **/
 		@Select("SELECT * FROM question_core WHERE owner_user_id=#{ownerUserId}")
-		@Results(
+		@ConstructorArgs(
 				{
-					@Result(property = "questionTitleId", column = "question_title_id"),
-			        @Result(property = "ownerUserId", column = "owner_user_id"),
-					@Result(property = "questionTitle", column = "question_title")
+						@Arg(column = "question_title_id", javaType = int.class),
+						@Arg(column = "owner_user_id", javaType = int.class),
+						@Arg(column = "question_title", javaType = String.class),
 				}
-				)
-		
+		)
 		/** titleIdからクエストタイトルを取得 **/ 
 		List<MyEnglishQuizTitleEntity> select_by_userid(int ownerUserId);
-		@Results(
-				{
-					@Result(property = "questionTitleId", column = "question_title_id"),
-			        @Result(property = "ownerUserId", column = "owner_user_id"),
-					@Result(property = "questionTitle", column = "question_title")
-				}
-				)
+
+		@ConstructorArgs(
+			{
+				@Arg(column = "question_title_id", javaType = int.class),
+				@Arg(column = "owner_user_id", javaType = int.class),
+				@Arg(column = "question_title", javaType = String.class),
+			}
+		)
 		@Select("SELECT * FROM question_core WHERE question_title_id=#{questionTitleId}")
 	    MyEnglishQuizTitleEntity select_by_id(int questionTitleId);
 		/** タイトルの追加 **/

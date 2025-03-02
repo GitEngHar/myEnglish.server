@@ -1,4 +1,4 @@
-package myenglish.domain;
+package myenglish.domain.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
