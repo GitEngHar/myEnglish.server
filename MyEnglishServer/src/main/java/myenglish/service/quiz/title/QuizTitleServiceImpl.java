@@ -49,10 +49,18 @@ public class QuizTitleServiceImpl implements QuizTitleService {
 	@Override
 	public List<QuestionTitleResponse> getQuestionTitle(
 			HttpSession session){
+		// セッションからUserIdを取得
 		int userId = userService.getUserId(session);
+		// userEntityを生成する
 		MyEnglishUserEntity userProperty = userService.getUser(null, userId);
+		if (userProperty==null) {
+			// TODO: 直す
+			throw new RuntimeException("サーバ側でセッションが継続していません。Cookieを削除して再度ログインしてください");
+		}
 		userProperty.setUserId(userId);
+		// userの問題タイトルを取得する
 		List<QuestionTitleEntity> questionTitleEntity = questionTitlePluginRepository.select_by_userid(userProperty.getUserId());
+		// userの問題タイトルをresponse形式に変換して返す
 		return questionTitleEntity.stream().map(QuestionTitleResponse::fromEntity).toList();
 	};
 
@@ -60,30 +68,7 @@ public class QuizTitleServiceImpl implements QuizTitleService {
 	@Override
 	public void updateQuestionTitle(QuestionTitleForm titleForm, HttpSession session) {
 		int userId = userService.getUserId(session);
-		int questionId = titleForm.getQuestionTitleId();
-		String oldQuestionTitle = ""; //新規データ追加時に検索する為の旧データ
-		QuestionTitleEntity titleEntity;
-
-		 // フロントエンドでID同期されていない場合の処理
-		if(titleForm.getQuestionTitle().contains(",")){
-			String[] splitQuestion = titleForm.getQuestionTitle().split(",");
-			String newQuestionTitle = splitQuestion[0];
-			titleEntity = new QuestionTitleEntity(
-					titleForm.getQuestionTitleId(),
-					userId,
-					newQuestionTitle
-			);
-			if(questionId == 0){
-				// 旧タイトルデータを取得
-				oldQuestionTitle = splitQuestion[1];
-				questionTitlePluginRepository.update_title_by_old_question(titleEntity,oldQuestionTitle);
-				return;
-			}
-			questionTitlePluginRepository.update_title(titleEntity);
-			return;
-		}
-		// questionId が 0の場合 新規追加時の編集のため Titleをperseして旧titleでクエリする
-		titleEntity = new QuestionTitleEntity(
+		QuestionTitleEntity titleEntity = new QuestionTitleEntity(
 				titleForm.getQuestionTitleId(),
 				userId,
 				titleForm.getQuestionTitle()
