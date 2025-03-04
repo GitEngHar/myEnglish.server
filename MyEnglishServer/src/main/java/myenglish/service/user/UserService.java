@@ -6,7 +6,8 @@ import myenglish.domain.entity.MyEnglishUserEntity;
 public interface UserService {
     int createUser(String name,String email);
     int getUserId(HttpSession session);
-    MyEnglishUserEntity getUser(String email,int userId);
+    MyEnglishUserEntity getUserByUserId(int userId);
+    MyEnglishUserEntity getUserByEmail(String email);
     // TODO: メールアドレス変更時のアカウント移管
     // TODO: アカウントの削除
 }

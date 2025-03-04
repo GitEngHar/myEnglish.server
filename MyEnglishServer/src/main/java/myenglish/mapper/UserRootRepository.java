@@ -10,14 +10,19 @@ public interface UserRootRepository {
 	int insert(MyEnglishUserEntity MyEnglishUserEntity);
 	/** id を 指定してユーザーを検索する **/
 	@Select("SELECT * FROM user_root WHERE user_id=#{userId}")
+	@ConstructorArgs({
+			@Arg(column="user_id",javaType=Integer.class),
+			@Arg(column="name",javaType=String.class),
+			@Arg(column="email",javaType=String.class)
+	})
 	MyEnglishUserEntity selectById(@Param("userId") Integer userId);
 
 	/** email を 指定してユーザーを検索する **/
 	@Select("SELECT * FROM user_root WHERE email=#{email}")
-	@Results(
-			{
-					@Result(property = "userId", column = "user_id")
-			}
-	)
+	@ConstructorArgs({
+		@Arg(column="user_id",javaType=Integer.class),
+		@Arg(column="name",javaType=String.class),
+		@Arg(column="email",javaType=String.class)
+	})
 	MyEnglishUserEntity selectByEmail(@Param("email") String email);
 }

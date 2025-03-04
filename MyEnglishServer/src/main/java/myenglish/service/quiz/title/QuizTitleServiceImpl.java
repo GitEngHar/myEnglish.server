@@ -52,14 +52,9 @@ public class QuizTitleServiceImpl implements QuizTitleService {
 		// セッションからUserIdを取得
 		int userId = userService.getUserId(session);
 		// userEntityを生成する
-		MyEnglishUserEntity userProperty = userService.getUser(null, userId);
-		if (userProperty==null) {
-			// TODO: 直す
-			throw new RuntimeException("サーバ側でセッションが継続していません。Cookieを削除して再度ログインしてください");
-		}
-		userProperty.setUserId(userId);
+		MyEnglishUserEntity userProperty = userService.getUserByUserId(userId);
 		// userの問題タイトルを取得する
-		List<QuestionTitleEntity> questionTitleEntity = questionTitlePluginRepository.select_by_userid(userProperty.getUserId());
+		List<QuestionTitleEntity> questionTitleEntity = questionTitlePluginRepository.select_by_userid(userProperty.userId());
 		// userの問題タイトルをresponse形式に変換して返す
 		return questionTitleEntity.stream().map(QuestionTitleResponse::fromEntity).toList();
 	};

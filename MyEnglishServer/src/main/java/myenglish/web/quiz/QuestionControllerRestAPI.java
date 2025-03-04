@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpSession;
 import myenglish.domain.dto.QuestionTitleResponse;
 import myenglish.service.quiz.title.QuizTitleServiceImpl;
 
+import myenglish.web.exception.UserNotFoundException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +30,12 @@ public class QuestionControllerRestAPI {
 	 * **/
 	@GetMapping("")
 	public List<QuestionTitleResponse> entryQuiz(HttpSession session) {
-		return quizTitleService.getQuestionTitle(session);
+		try{
+			return quizTitleService.getQuestionTitle(session);
+		}catch(UserNotFoundException e) {
+			// TODO:403で返す
+			return null;
+		}
 	}
 	
 	/** クイズタイトルをDBへ保存 **/
