@@ -9,15 +9,4 @@ import lombok.NoArgsConstructor;
 	識別子(カラムとfield ??)が一緒なら一緒
 */
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class MyEnglishUserEntity {
-	private Integer userId;
-	private String name;
-	private String email;
-	public MyEnglishUserEntity(String name, String email) {
-		this.name = name;
-		this.email = email;
-	}
-}
+public record MyEnglishUserEntity (Integer userId, String name, String email){}

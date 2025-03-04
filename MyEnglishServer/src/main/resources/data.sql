@@ -1,7 +1,7 @@
-DELETE FROM question_details_answer_plugin;
-DELETE FROM question_details_plugin;
-DELETE FROM question_core;
-DELETE FROM user_root;
+-- DELETE FROM question_details_answer_plugin;
+-- DELETE FROM question_details_plugin;
+-- DELETE FROM question_core;
+-- DELETE FROM user_root;
 
 INSERT IGNORE INTO user_root (user_id,name,email,created_date,update_date)
 VALUES
