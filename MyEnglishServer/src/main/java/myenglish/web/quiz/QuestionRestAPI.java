@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpSession;
 import myenglish.domain.dto.QuestionTitleResponse;
 import myenglish.service.quiz.title.QuizTitleServiceImpl;
 
+import myenglish.web.exception.InvalidRequestException;
 import myenglish.web.exception.UserNotFoundException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -16,13 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import myenglish.domain.entity.QuestionTitleEntity;
 import myenglish.web.form.QuestionTitleForm;
 
 @RequestMapping(value="/quizrest")
 @RequiredArgsConstructor
 @RestController
-public class QuestionControllerRestAPI {
+public class QuestionRestAPI {
 	private final QuizTitleServiceImpl quizTitleService;
 
 	/** クイズのトップ画面でのデータ取得
@@ -42,8 +42,7 @@ public class QuestionControllerRestAPI {
 	@PostMapping("/save")
 	public void saveQuizTitle(@RequestBody @Validated QuestionTitleForm form , BindingResult bindingResult, HttpSession session) {
 		if(bindingResult.hasErrors()) {
-			// TODO: 400で返す
-			System.out.println("!!!ERROR!!!");
+			throw new InvalidRequestException("ユーザー入力された値が不正なのでデータ登録を拒否しました。 : " + bindingResult.getAllErrors().getFirst().getDefaultMessage());
 		}else{
 			quizTitleService.insertQuestionTitle(form,session);
 		}
@@ -57,8 +56,7 @@ public class QuestionControllerRestAPI {
 		/** 編集した内容でアップデート **/
 		// セッションからユーザーIDを取得する
 		if(bindingResult.hasErrors()){
-			// TODO: 400で返す
-			System.out.println("!!!ERROR!!!");
+			throw new InvalidRequestException("ユーザー入力された値が不正なのでデータ登録を拒否しました。 : " + bindingResult.getAllErrors().getFirst().getDefaultMessage());
 		}else{
 			quizTitleService.updateQuestionTitle(form,session);
 		}

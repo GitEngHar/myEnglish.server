@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpSession;
 
 import myenglish.domain.dto.QuestionDetailsResponse;
 import myenglish.service.quiz.details.QuizDetailsServiceImpl;
+import myenglish.web.exception.InvalidRequestException;
 import myenglish.web.form.*;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -31,8 +32,7 @@ public class QuestionDetailsRestAPI {
 			BindingResult bindingResult,
 			HttpSession session) {
 		if(bindingResult.hasErrors()){
-			System.out.println("ERROR! quizdetails");
-			return null; //TODO: 410エラーと分かる内容を返す
+			throw new InvalidRequestException("ユーザー入力された値が不正なのでデータ登録を拒否しました。 : " + bindingResult.getAllErrors().getFirst().getDefaultMessage());
 		}
 		return quizDetailsService.getAllQuestionDetails(quiestionTitle,session);
 	}
@@ -43,8 +43,7 @@ public class QuestionDetailsRestAPI {
 	@PostMapping("/all")
 	public List<QuestionDetailsResponse> quizDetailsAll(@RequestBody  @Validated QuestionTitleForm questionTitle, BindingResult bindingResult, HttpSession session) {
 		if(bindingResult.hasErrors()) {
-			System.out.println("ERORR");
-			return null;
+			throw new InvalidRequestException("ユーザー入力された値が不正なのでデータ登録を拒否しました。 : " + bindingResult.getAllErrors().getFirst().getDefaultMessage());
 		}
 		return quizDetailsService.getAllQuestionDetails(questionTitle,session);
 	}
@@ -57,11 +56,9 @@ public class QuestionDetailsRestAPI {
 								BindingResult bindingResult
 			) {
 		if(bindingResult.hasErrors()){
-			// TODO:400エラー
-			System.out.println("ERROR! saveQuizDetails");
-		}else{
-			quizDetailsService.insertQuestion(questionDetailsForm);
+			throw new InvalidRequestException("ユーザー入力された値が不正なのでデータ登録を拒否しました。 : " + bindingResult.getAllErrors().getFirst().getDefaultMessage());
 		}
+		quizDetailsService.insertQuestion(questionDetailsForm);
 	}
 	
 	/*クイズ削除 delete */
@@ -80,13 +77,11 @@ public class QuestionDetailsRestAPI {
 			@RequestBody @Validated QuestionDetailsForm questionDetailsForm,
 		 	BindingResult bindingResult,HttpSession session
 	) {
-			// TODO:エラーハンドル
-			/* 編集した内容で問題と答えをアップデート */
+		/* 編集した内容で問題と答えをアップデート */
 		if(bindingResult.hasErrors()){
-			System.out.println("ERROR! quizForm");
-		}else{
-			quizDetailsService.updateQuestionDetails(questionDetailsForm);
+			throw new InvalidRequestException("ユーザー入力された値が不正なのでデータ登録を拒否しました。 : " + bindingResult.getAllErrors().getFirst().getDefaultMessage());
 		}
+		quizDetailsService.updateQuestionDetails(questionDetailsForm);
 	}
 
 }
