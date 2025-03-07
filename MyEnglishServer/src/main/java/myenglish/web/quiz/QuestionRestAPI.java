@@ -30,12 +30,7 @@ public class QuestionRestAPI {
 	 * **/
 	@GetMapping("")
 	public List<QuestionTitleResponse> entryQuiz(HttpSession session) {
-		try{
 			return quizTitleService.getQuestionTitle(session);
-		}catch(UserNotFoundException e) {
-			// TODO:403で返す
-			return null;
-		}
 	}
 	
 	/** クイズタイトルをDBへ保存 **/
@@ -52,7 +47,6 @@ public class QuestionRestAPI {
 	// クイズ更新画面
 	@PostMapping("/update")
 	public void quizForm(@RequestBody @Validated QuestionTitleForm form, BindingResult bindingResult , HttpSession session) {
-		// TODO:エラーをハンドリングする
 		/** 編集した内容でアップデート **/
 		// セッションからユーザーIDを取得する
 		if(bindingResult.hasErrors()){

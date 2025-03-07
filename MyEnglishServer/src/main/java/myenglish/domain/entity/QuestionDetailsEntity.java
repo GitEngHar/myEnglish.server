@@ -1,12 +1,11 @@
 package myenglish.domain.entity;
 
+import myenglish.web.exception.InvalidRequestException;
+
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * @param answerCandidateNo1 TODO: 配列にする
- */
 public record QuestionDetailsEntity(int questionDetailsId, int questionTitleId, String questionWord,
                                     String answerCandidateNo1, String answerCandidateNo2, String answerCandidateNo3, String answerCandidateNo4,
                                     int answerNumber,
@@ -29,8 +28,7 @@ public record QuestionDetailsEntity(int questionDetailsId, int questionTitleId, 
         // 回答全てがユニークであることを判定する
         boolean isUniqueCandidate = candidateNums == uniqueCandidateNums;
         if (!isUniqueCandidate) {
-            // TODO: Exceptionをカスタマイズする
-            throw new RuntimeException("重複した回答が設定されています。ユニークな値を設定してください。");
+            throw new InvalidRequestException("重複した回答が設定されています。ユニークな値を設定してください。");
         }
     }
 
