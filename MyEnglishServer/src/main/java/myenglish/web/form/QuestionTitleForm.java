@@ -18,5 +18,4 @@ public class QuestionTitleForm {
 	@NotBlank(message="入力必須")
 	@Pattern(regexp = "^[a-zA-Z0-9ぁ-んァ-ン一-龥々ー,]*$", message = "特殊文字は使用できません（英数字および日本語のみ許可）")
 	private String questionTitle;
-	private boolean booladd;
 }

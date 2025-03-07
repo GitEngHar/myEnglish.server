@@ -38,9 +38,8 @@ public class QuestionRestAPI {
 	public void saveQuizTitle(@RequestBody @Validated QuestionTitleForm form , BindingResult bindingResult, HttpSession session) {
 		if(bindingResult.hasErrors()) {
 			throw new InvalidRequestException("ユーザー入力された値が不正なのでデータ登録を拒否しました。 : " + bindingResult.getAllErrors().getFirst().getDefaultMessage());
-		}else{
-			quizTitleService.insertQuestionTitle(form,session);
 		}
+		quizTitleService.insertQuestionTitle(form,session);
 	}
 
 	
@@ -51,9 +50,9 @@ public class QuestionRestAPI {
 		// セッションからユーザーIDを取得する
 		if(bindingResult.hasErrors()){
 			throw new InvalidRequestException("ユーザー入力された値が不正なのでデータ登録を拒否しました。 : " + bindingResult.getAllErrors().getFirst().getDefaultMessage());
-		}else{
-			quizTitleService.updateQuestionTitle(form,session);
 		}
+		quizTitleService.updateQuestionTitle(form,session);
+
 	}
 	
 	/** クイズ削除 **/
