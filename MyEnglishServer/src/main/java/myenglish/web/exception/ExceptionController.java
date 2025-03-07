@@ -14,4 +14,11 @@ public class ExceptionController {
         problemDetail.setDetail("InvalidRequest");
         return problemDetail;
     }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ProblemDetail UserNotFoundExceptionHandler(UserNotFoundException e) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.FORBIDDEN, e.getMessage());
+        problemDetail.setDetail("NotFoundUser");
+        return problemDetail;
+    }
 }
