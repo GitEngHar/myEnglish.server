@@ -4,9 +4,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 
-@RestController
+@RestControllerAdvice
 public class ExceptionController {
     @ExceptionHandler(InvalidRequestException.class)
     public ProblemDetail InvalidRequestExceptionHandler(InvalidRequestException e) {
