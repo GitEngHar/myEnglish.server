@@ -14,6 +14,7 @@ public class OAuth2LoginSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .cors(withDefaults())
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/login/**").permitAll() // login配下は認証不要
                         .anyRequest().authenticated()

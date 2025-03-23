@@ -9,7 +9,6 @@ import myenglish.web.exception.InvalidRequestException;
 import myenglish.web.form.*;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,8 +23,6 @@ public class QuestionDetailsRestAPI {
 	
 	private final QuizDetailsServiceImpl quizDetailsService;
 	/** クイズ問題画面 **/
-	@CrossOrigin
-			(origins = "http://localhost:3000")
 	@PostMapping("/")
 	public List<QuestionDetailsResponse> quizdetails(
 			@RequestBody @Validated QuestionTitleForm quiestionTitle,
@@ -38,8 +35,6 @@ public class QuestionDetailsRestAPI {
 	}
 
 	/** クイズ問題と回答を全て取得する **/
-	@CrossOrigin
-			(origins = "http://localhost:3000")
 	@PostMapping("/all")
 	public List<QuestionDetailsResponse> quizDetailsAll(@RequestBody  @Validated QuestionTitleForm questionTitle, BindingResult bindingResult, HttpSession session) {
 		if(bindingResult.hasErrors()) {
@@ -49,8 +44,6 @@ public class QuestionDetailsRestAPI {
 	}
 
 	/* クイズ情報を追加する */
-	@CrossOrigin
-	(origins = "http://localhost:3000")
 	@PostMapping("/save")
 	public void saveQuizDetails(@RequestBody @Validated QuestionDetailsForm questionDetailsForm,
 								BindingResult bindingResult
@@ -62,16 +55,12 @@ public class QuestionDetailsRestAPI {
 	}
 	
 	/*クイズ削除 delete */
-	@CrossOrigin
-	(origins = "http://localhost:3000")
 	@PostMapping("/delete")
 	public void quizDelete(@RequestBody  QuestionDetailsForm questionDetailsForm) {
 		quizDetailsService.deleteQuestion(questionDetailsForm);
 	}
 
 	/* クイズ更新 */
-	@CrossOrigin
-	(origins = "http://localhost:3000")
 	@PostMapping("/update")
 	public void quizForm(
 			@RequestBody @Validated QuestionDetailsForm questionDetailsForm,

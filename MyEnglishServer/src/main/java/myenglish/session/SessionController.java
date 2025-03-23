@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,7 +18,8 @@ public class SessionController {
      * ユーザー情報のセッションを 更新/取得 するクラス
      * Monoは単一の情報を返す , Fluxは複数の情報を返す
      * */
-    private String redirectUrl = "http://localhost:3000"; //リダイレクト先のURL
+    @Value("${front.path}")
+    private String redirectUrl; //リダイレクト先のURL local: http://localhost:3000
     private final HttpSession session;
 
     // セッション動作検証用 foo が keyのvalueを取得する
@@ -46,6 +48,7 @@ public class SessionController {
     public String setSession (@RequestParam("userid") String userId){
         // セッションにユーザー情報を格納
         session.setAttribute("userId", userId);
+        // TODO: Responseにしないと session 登録されない現象
         return "redirect:" + redirectUrl;
     }
 
