@@ -41,7 +41,8 @@ logging:
 
 jwt:
   secret-key: ${JWT_SECRET_KEY}
-
+front:
+  path: ${FRONT_PATH}
 #server.servlet.session.timeout=3600
 #spring.session.redis.flush-mode=on_save
 #spring.session.redis.namespace=spring:session
