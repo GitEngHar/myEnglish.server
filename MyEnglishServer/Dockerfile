@@ -5,8 +5,12 @@ FROM amazoncorretto:21
 # 作業ディレクトリを設定
 WORKDIR /app
 
+# java application dir をコピー
+
+# jar build
+
 # Buildするjarをコピー
-COPY ./build/libs/MyEnglishServer-0.0.1-SNAPSHOT.jar app.jar
+COPY ./build/libs/*.jar app.jar
 
 # portを設定
 EXPOSE 8080
