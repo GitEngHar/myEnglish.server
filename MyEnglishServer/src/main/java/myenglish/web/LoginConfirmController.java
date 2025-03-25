@@ -20,6 +20,7 @@ public class LoginConfirmController {
     @GetMapping("login/confirm")
     public String loginConfirm(HttpSession session) {
         try {
+            // TODO: セッションがコミットされる前の値を参照する
             // ユーザー情報が取得できない場合は未認証レスポンスを返す
             int userId = userService.getUserId(session);
             userService.getUserByUserId(userId);
