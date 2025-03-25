@@ -1,10 +1,8 @@
-name: CI
+name: Build CI
 
 on:
-  pull_request:
-    types: [closed]
-    branches:
-      - main
+  push:
+    branches: [main]
     workflow_dispatch:
 
 permissions: write-all
@@ -19,9 +17,8 @@ env:
   RELEASE_BRANCH: main
 
 jobs:
-  release:
+  build:
     # マージされたときのみ実行
-    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
