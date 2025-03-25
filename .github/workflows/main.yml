@@ -3,7 +3,7 @@ name: Build CI
 on:
   push:
     branches: [main]
-    workflow_dispatch:
+    paths: ['MyEnglishServer/src/main/**', '.github/workflows/**']
 
 permissions: write-all
 
