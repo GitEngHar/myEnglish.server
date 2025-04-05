@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 
-@RequestMapping("quizdetailsrest")
+@RequestMapping("/web/quizdetailsrest")
 @RequiredArgsConstructor
 @RestController
 public class QuestionDetailsRestAPI {

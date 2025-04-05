@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import io.jsonwebtoken.Jwts;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -21,6 +22,7 @@ import java.util.Date;
 import java.util.logging.Logger;
 
 /*認証成功時にJWT-Tokenを発行する*/
+@RequestMapping("/web")
 @RestController
 public class OAuthSuccessController {
     private final UserServiceImpl userServiceImpl;
@@ -63,7 +65,7 @@ public class OAuthSuccessController {
         int userId = userServiceImpl.createUser(name,email);
 
         // セッションにユーザー情報を登録しフロントエンドサーバへリダイレクトさせる
-        String baseUrl = "/websession/set";
+        String baseUrl = "/web/websession/set";
         URI uri = UriComponentsBuilder
                 .fromUriString(baseUrl)
                 .queryParam("userid", "{userid}")
