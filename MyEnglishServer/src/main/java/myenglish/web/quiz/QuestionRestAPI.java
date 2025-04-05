@@ -7,7 +7,6 @@ import myenglish.domain.dto.QuestionTitleResponse;
 import myenglish.service.quiz.title.QuizTitleServiceImpl;
 
 import myenglish.web.exception.InvalidRequestException;
-import myenglish.web.exception.UserNotFoundException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import myenglish.web.form.QuestionTitleForm;
 
-@RequestMapping(value="/quizrest")
+@RequestMapping(value="/web/quizrest")
 @RequiredArgsConstructor
 @RestController
 public class QuestionRestAPI {
@@ -32,7 +31,7 @@ public class QuestionRestAPI {
 	public List<QuestionTitleResponse> entryQuiz(HttpSession session) {
 			return quizTitleService.getQuestionTitle(session);
 	}
-	
+	// TODO: ドメインを他と統一するべし
 	/** クイズタイトルをDBへ保存 **/
 	@PostMapping("/save")
 	public void saveQuizTitle(@RequestBody @Validated QuestionTitleForm form , BindingResult bindingResult, HttpSession session) {

@@ -5,10 +5,10 @@ import lombok.RequiredArgsConstructor;
 import myenglish.service.user.UserService;
 import myenglish.web.exception.UserNotFoundException;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Optional;
-
+@RequestMapping(value="/web")
 @RequiredArgsConstructor
 @RestController
 public class LoginConfirmController {
