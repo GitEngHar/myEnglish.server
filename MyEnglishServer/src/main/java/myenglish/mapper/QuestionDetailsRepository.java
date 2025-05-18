@@ -22,8 +22,8 @@ public interface QuestionDetailsRepository {
     })
     List<QuestionDetailsEntity> selectQuestionByTitleId(int questionTitleId);
 
-    @Insert("INSERT INTO question_details(question_details_id,question_title_id,question_word,answer_candidate_no_1,answer_candidate_no_2,answer_candidate_no_3,answer_candidate_no_4,answer_number,created_date,update_date)"
-            + " VALUES(#{questionDetailsId},#{questionTitleId},#{questionWord},#{answerCandidateNo1},#{answerCandidateNo2},#{answerCandidateNo3},#{answerCandidateNo4},#{answerNumber},NOW(),NOW())")
+    @Insert("INSERT INTO question_details(question_title_id,question_word,answer_candidate_no_1,answer_candidate_no_2,answer_candidate_no_3,answer_candidate_no_4,answer_number,created_date,update_date)"
+            + " VALUES(#{questionTitleId},#{questionWord},#{answerCandidateNo1},#{answerCandidateNo2},#{answerCandidateNo3},#{answerCandidateNo4},#{answerNumber},NOW(),NOW())")
     void insert_question(QuestionDetailsEntity questionDetailsEntity);
 
     /** 問題を更新する **/
